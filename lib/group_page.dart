@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
-import 'package:fairteams/player_page.dart';
+import 'package:fairteams/group_edit.dart';
+import 'package:fairteams/player_edit.dart';
 import 'package:fairteams/player_select.dart';
 
 class GroupPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class GroupPage extends StatelessWidget {
               tooltip: 'New Player'),
           IconButton(
               icon: const Icon(Icons.edit),
-              onPressed: () => null,
+              onPressed: () => _editGroup(context),
               tooltip: 'Edit Group'),
         ],
       ),
@@ -103,7 +104,15 @@ class GroupPage extends StatelessWidget {
   void _newPlayer(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PlayerPage(group: group),
+        builder: (context) => PlayerEdit(group: group),
+      ),
+    );
+  }
+
+  void _editGroup(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => GroupEdit(group: group),
       ),
     );
   }
@@ -111,7 +120,7 @@ class GroupPage extends StatelessWidget {
   void _editPlayer(BuildContext context, Player player) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PlayerPage(group: group, playerId: player.id),
+        builder: (context) => PlayerEdit(group: group, player: player),
       ),
     );
   }

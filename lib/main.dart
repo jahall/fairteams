@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:fairteams/group_new.dart';
+import 'package:fairteams/group_edit.dart';
 import 'package:fairteams/group_page.dart';
 import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
@@ -66,7 +66,7 @@ class Home extends StatelessWidget {
   void _newGroup(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const NewGroup(),
+        builder: (context) => const GroupEdit(),
       ),
     );
   }

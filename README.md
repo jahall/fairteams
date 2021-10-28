@@ -5,8 +5,9 @@ Choose fair teams from a pool of players.
 ## TODO
 Must have:
 1. Migrate algorithm into `teams.dart`
-2. Make group editable / deletable (like players)
-3. Display team comparison
+2. Display team comparison
+3. Edit/delete buttons to main page...to avoid nulls
+4. Figure out missing name issue in group edit...
 
 Nice to have:
 1. Make skills editable

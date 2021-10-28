@@ -39,7 +39,7 @@ class Group {
     IconData? iconData = {
       'basketball': Icons.sports_basketball,
       'football': Icons.sports_soccer,
-    }[sport];
+    }[sport.toLowerCase()];
     return Icon(iconData);
   }
 }
