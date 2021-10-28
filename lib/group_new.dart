@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:fairteams/model.dart';
+import 'package:fairteams/state.dart';
 
 class NewGroup extends StatefulWidget {
   const NewGroup({Key? key}) : super(key: key);
@@ -129,7 +131,8 @@ class _NewGroupState extends State<NewGroup> {
         _group.skillNames = ['Defence', 'Attack', 'Savvy', 'Fitness'];
       }
       form?.save();
-      Navigator.of(context).pop(_group);
+      Provider.of<AppState>(context, listen: false).addOrUpdateGroup(_group);
+      Navigator.of(context).pop();
     }
   }
 }

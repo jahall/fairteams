@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fairteams/model.dart';
 
-class ChooseTeams extends StatefulWidget {
+class ChooseTeams extends StatelessWidget {
   const ChooseTeams({Key? key, required this.group, required this.players})
       : super(key: key);
 
@@ -10,13 +10,8 @@ class ChooseTeams extends StatefulWidget {
   final List<Player> players;
 
   @override
-  _ChooseTeamsState createState() => _ChooseTeamsState();
-}
-
-class _ChooseTeamsState extends State<ChooseTeams> {
-  @override
   Widget build(BuildContext context) {
-    List<Team> teams = _findTeams(widget.players);
+    List<Team> teams = _findTeams(players);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Fair Teams'),
@@ -56,11 +51,11 @@ class _ChooseTeamsState extends State<ChooseTeams> {
   }
 
   List<Team> _findTeams(List<Player> players) {
-    int n = (widget.players.length / 2).ceil();
-    Team reds = Team(
-        name: 'Reds', color: Colors.red, players: widget.players.sublist(0, n));
-    Team blues = Team(
-        name: 'Blues', color: Colors.blue, players: widget.players.sublist(n));
+    int n = (players.length / 2).ceil();
+    Team reds =
+        Team(name: 'Reds', color: Colors.red, players: players.sublist(0, n));
+    Team blues =
+        Team(name: 'Blues', color: Colors.blue, players: players.sublist(n));
     return [reds, blues];
   }
 }

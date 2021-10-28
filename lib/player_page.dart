@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
 
 class PlayerPage extends StatefulWidget {
-  const PlayerPage(
-      {Key? key, required this.group, required this.player, this.mode = 'new'})
+  const PlayerPage({Key? key, required this.group, this.playerId})
       : super(key: key);
 
   final Group group;
-  final Player player;
-  final String mode;
+  final String? playerId;
 
   @override
   _PlayerPageState createState() => _PlayerPageState();
@@ -18,33 +18,51 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int _autoValidateModeIndex = AutovalidateMode.disabled.index;
-  Set<String> validNames = {};
+
+  String _name = '';
+  Map<String, double> _skills = {};
+  Set<String> _existingNames = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _existingNames = widget.group.players.map((player) => player.name).toSet();
+    if (widget.playerId == null) {
+      _name = '';
+      _skills = {};
+    } else {
+      _name = widget.group.player(widget.playerId!).name;
+      _skills =
+          Map.from(widget.group.player(widget.playerId.toString()).skills);
+      _existingNames.remove(_name);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String title = 'New Player';
-    List<Widget> actions = [];
-    validNames = {};
-    if (widget.mode == 'edit') {
-      title = 'Edit Player';
-      actions = [
-        IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: _removePlayer,
-            tooltip: 'New Player'),
-      ];
-      validNames = {widget.player.name};
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        actions: actions,
-      ),
-      body: _buildForm(context),
-    );
+    return Consumer<AppState>(builder: (context, model, child) {
+      String title = 'New Player';
+      List<Widget> actions = [];
+      if (widget.playerId != null) {
+        title = 'Edit Player';
+        actions = [
+          IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () => _removePlayer(model),
+              tooltip: 'New Player'),
+        ];
+      }
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          actions: actions,
+        ),
+        body: _buildForm(context, model),
+      );
+    });
   }
 
-  Widget _buildForm(BuildContext context) {
+  Widget _buildForm(BuildContext context, AppState model) {
     const sizedBoxSpace = SizedBox(height: 24);
     List<Widget> fields = [
       sizedBoxSpace,
@@ -52,11 +70,11 @@ class _PlayerPageState extends State<PlayerPage> {
       sizedBoxSpace,
     ];
     for (final skillName in widget.group.skillNames) {
-      fields += _skillSlider(context, skillName);
+      fields += _skillSlider(context, model, skillName);
       fields += [sizedBoxSpace];
     }
     fields += [
-      _submitButton(context),
+      _submitButton(context, model),
       sizedBoxSpace,
       Text(
         '* indicates required field',
@@ -85,16 +103,17 @@ class _PlayerPageState extends State<PlayerPage> {
         hintText: 'What is their name?',
         labelText: 'Name*',
       ),
-      initialValue: (widget.player.name == '') ? null : widget.player.name,
+      initialValue: _name,
       onSaved: (value) {
-        widget.player.name = (value == null) ? '' : value.toString();
+        _name = (value == null) ? '' : value.toString();
       },
       validator: _validateName,
     );
   }
 
-  List<Widget> _skillSlider(BuildContext contex, String skillName) {
-    var value = widget.player.skills[skillName] ?? 5;
+  List<Widget> _skillSlider(
+      BuildContext contex, AppState state, String skillName) {
+    var value = _skills[skillName] ?? 5;
     return [
       Text(skillName, style: Theme.of(context).textTheme.bodyText1),
       Slider(
@@ -103,20 +122,20 @@ class _PlayerPageState extends State<PlayerPage> {
         max: 10,
         divisions: 10,
         label: value.round().toString(),
-        activeColor: widget.player.skillColor(value),
+        activeColor: skillColor(value),
         onChanged: (double value) {
           setState(() {
-            widget.player.skills[skillName] = value;
+            _skills[skillName] = value;
           });
         },
       ),
     ];
   }
 
-  Widget _submitButton(BuildContext context) {
+  Widget _submitButton(BuildContext context, AppState model) {
     return Center(
       child: ElevatedButton(
-        onPressed: () => _handleSubmitted(context),
+        onPressed: () => _handleSubmitted(context, model),
         child: const Text('Save'),
       ),
     );
@@ -131,28 +150,27 @@ class _PlayerPageState extends State<PlayerPage> {
     if (!nameExp.hasMatch(val)) {
       return 'Alphanumeric characters only';
     }
-    Set<String> existing =
-        widget.group.players.map((player) => player.name).toSet();
-    existing = existing.difference(validNames);
-    if (existing.contains(value)) {
+    if (_existingNames.contains(value)) {
       return 'There is already a "$value"';
     }
     return null;
   }
 
-  void _handleSubmitted(BuildContext context) {
+  void _handleSubmitted(BuildContext context, AppState state) {
     final form = _formKey.currentState;
     final bool isValid = form?.validate() ?? false;
     if (!isValid) {
       _autoValidateModeIndex = AutovalidateMode.always.index;
     } else {
       form?.save();
-      Navigator.of(context).pop(widget.player);
+      Player player = Player(id: widget.playerId, name: _name, skills: _skills);
+      state.addOrUpdatePlayer(widget.group.id, player);
+      Navigator.of(context).pop();
     }
   }
 
-  void _removePlayer() {
-    // Hidous way of letting caller know to delete
-    Navigator.of(context).pop(Player(name: 'DELETE'));
+  void _removePlayer(AppState state) {
+    state.removePlayer(widget.group.id, widget.playerId ?? '');
+    Navigator.of(context).pop();
   }
 }

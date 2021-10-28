@@ -26,9 +26,7 @@ class _PlayerSelectState extends State<PlayerSelect> {
           child: Scrollbar(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: _playerSelection(),
-              ),
+              child: _playerSelection(),
             ),
           ),
         ),
@@ -39,33 +37,33 @@ class _PlayerSelectState extends State<PlayerSelect> {
         const SizedBox(height: 8),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
-            onPressed:
-                (_selected.length > 1) ? () => _chooseTeams(context) : null,
-            child: const Text('Find Fair Teams'),
-          ),
+              onPressed:
+                  (_selected.length > 1) ? () => _chooseTeams(context) : null,
+              child: const Text('Find Fair Teams')),
         ]),
         const SizedBox(height: 26),
       ]),
     );
   }
 
-  List<Widget> _playerSelection() {
-    return widget.group.players
-        .map((player) => CheckboxListTile(
-              title: Text(player.name),
-              secondary: player.icon(),
-              value: _selected.contains(player.name),
-              onChanged: (_) {
-                setState(() {
-                  if (_selected.contains(player.name)) {
-                    _selected.remove(player.name);
-                  } else {
-                    _selected.add(player.name);
-                  }
-                });
-              },
-            ))
-        .toList();
+  Widget _playerSelection() {
+    return Column(
+        children: widget.group.players
+            .map((player) => CheckboxListTile(
+                  title: Text(player.name),
+                  secondary: player.icon(),
+                  value: _selected.contains(player.id),
+                  onChanged: (_) {
+                    setState(() {
+                      if (_selected.contains(player.id)) {
+                        _selected.remove(player.id);
+                      } else {
+                        _selected.add(player.id);
+                      }
+                    });
+                  },
+                ))
+            .toList());
   }
 
   Widget _selectedCountInfo(BuildContext context) {
@@ -83,7 +81,7 @@ class _PlayerSelectState extends State<PlayerSelect> {
 
   void _chooseTeams(BuildContext context) {
     List<Player> players =
-        widget.group.players.where((p) => _selected.contains(p.name)).toList();
+        widget.group.players.where((p) => _selected.contains(p.id)).toList();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
