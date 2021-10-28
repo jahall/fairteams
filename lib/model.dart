@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Group {
   late final String id;
@@ -9,9 +10,8 @@ class Group {
   late Map<String, Player> _players;
 
   Group({id, this.name = '', this.sport = '', skillNames, players}) {
-    this.id = (id == null)
-        ? DateTime.now().millisecondsSinceEpoch.toString() + name
-        : id;
+    // For time based could use DateTime.now().millisecondsSinceEpoch
+    this.id = (id == null) ? Uuid().v4() : id;
     this.skillNames = (skillNames == null) ? [] : skillNames;
     _players = (players == null) ? {} : {for (var p in players) p.id: p};
   }
@@ -50,9 +50,7 @@ class Player {
   late Map<String, double> skills;
 
   Player({id, this.name = '', skills}) {
-    this.id = (id == null)
-        ? DateTime.now().millisecondsSinceEpoch.toString() + name
-        : id;
+    this.id = (id == null) ? Uuid().v4() : id;
     this.skills = (skills == null) ? {} : skills;
   }
 

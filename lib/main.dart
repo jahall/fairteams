@@ -54,6 +54,10 @@ class Home extends StatelessWidget {
                           title: Text(group.name),
                           subtitle: Text(group.subtitle()),
                           leading: group.icon(),
+                          trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _removeGroup(context, group),
+                              tooltip: 'Edit Group'),
                           onTap: () => _showGroup(context, group),
                         ))
                     .toList()),
@@ -80,5 +84,20 @@ class Home extends StatelessWidget {
                 )),
       ),
     );
+  }
+
+  void _removeGroup(BuildContext context, Group group) {
+    final snackBar = SnackBar(
+      content: Text('Are you sure you want to delete ${group.name}?'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          Provider.of<AppState>(context, listen: false).addOrUpdateGroup(group);
+        },
+      ),
+    );
+
+    Provider.of<AppState>(context, listen: false).removeGroup(group.id);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

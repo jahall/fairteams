@@ -117,11 +117,28 @@ class GroupPage extends StatelessWidget {
     );
   }
 
-  void _editPlayer(BuildContext context, Player player) {
-    Navigator.of(context).push(
+  void _editPlayer(BuildContext context, Player player) async {
+    String? action = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PlayerEdit(group: group, player: player),
       ),
     );
+
+    // If you try to do this on the player_edit page it doesn't work
+    // since the navigator pop messes with context and causes a null...
+    if (action == 'delete') {
+      final snackBar = SnackBar(
+        content: Text(
+            'Are you sure you want to remove ${player.name} from ${group.name}?'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            Provider.of<AppState>(context, listen: false)
+                .addOrUpdatePlayer(group.id, player);
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }
