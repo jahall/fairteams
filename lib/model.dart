@@ -95,14 +95,30 @@ class Team {
 
   Team({this.name = '', this.color, players}) {
     this.players = (players == null) ? [] : players;
+    _sort();
+  }
+
+  void add(Player player) {
+    players.add(player);
+    _sort();
+  }
+
+  void remove(Player player) => players.removeWhere((p) => p.id == player.id);
+
+  double skill(String skillName) {
+    return players
+            .map((p) => p.skills[skillName] ?? 5)
+            .reduce((a, b) => a + b) /
+        players.length;
   }
 
   Map<String, double> skills(List<String> skillNames) {
-    return {
-      for (var s in skillNames)
-        s: players.map((p) => p.skills[s] ?? 5).reduce((a, b) => a + b) /
-            players.length
-    };
+    return {for (var s in skillNames) s: skill(s)};
+  }
+
+  void _sort() {
+    players.sort(
+        (p1, p2) => p1.name.toLowerCase().compareTo(p2.name.toLowerCase()));
   }
 }
 
