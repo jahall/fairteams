@@ -93,14 +93,13 @@ class Team {
   Color? color;
   late List<Player> players;
 
-  Team({this.name = '', this.color, players}) {
+  Team({this.name = '', players, this.color}) {
     this.players = (players == null) ? [] : players;
-    _sort();
   }
 
   void add(Player player) {
     players.add(player);
-    _sort();
+    sort();
   }
 
   void remove(Player player) => players.removeWhere((p) => p.id == player.id);
@@ -116,7 +115,7 @@ class Team {
     return {for (var s in skillNames) s: skill(s)};
   }
 
-  void _sort() {
+  void sort() {
     players.sort(
         (p1, p2) => p1.name.toLowerCase().compareTo(p2.name.toLowerCase()));
   }

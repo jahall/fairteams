@@ -131,8 +131,13 @@ class _ChooseTeamsState extends State<ChooseTeams> {
         Theme.of(context).textTheme.bodyText1?.apply(fontSizeDelta: 1);
 
     Widget scoreView(double score, Color color, bool bold) {
-      return Text(redSkill.toStringAsFixed(1),
-          style: style?.apply(color: color, fontWeightDelta: (bold) ? 50 : 0));
+      return SizedBox(
+          child: Align(
+              alignment: Alignment.center,
+              child: Text(score.toStringAsFixed(1),
+                  style: style?.apply(
+                      color: color, fontWeightDelta: (bold) ? 50 : 0))),
+          width: 40);
     }
 
     Widget diffView(bool show) {
@@ -141,7 +146,7 @@ class _ChooseTeamsState extends State<ChooseTeams> {
               alignment: Alignment.center,
               child: Text((show) ? '+${diff.abs().toStringAsFixed(1)}' : '',
                   style: style?.apply(color: Colors.green))),
-          width: 50);
+          width: 60);
     }
 
     return SizedBox(
@@ -153,7 +158,7 @@ class _ChooseTeamsState extends State<ChooseTeams> {
               child: Align(
                   alignment: Alignment.center,
                   child: Text(skillName, style: style)),
-              width: 150),
+              width: 120),
           scoreView(blueSkill, Colors.blue, diff < -0.05),
           diffView(diff < -0.05),
         ]));
@@ -172,10 +177,37 @@ class _ChooseTeamsState extends State<ChooseTeams> {
 
   List<Team> _findTeams(List<Player> players) {
     int n = (players.length / 2).ceil();
-    Team reds =
-        Team(name: 'Reds', color: Colors.red, players: players.sublist(0, n));
-    Team blues =
-        Team(name: 'Blues', color: Colors.blue, players: players.sublist(n));
+    Team reds = Team();
+    Team blues = Team();
+    double diff = 1.0 / 0.0; // infinity
+    for (var redPlayers in combinations(n, players)) {
+      var redIds = redPlayers.map((p) => p.id).toSet();
+      var reds_ = Team(name: 'Reds', color: Colors.red, players: redPlayers);
+      var blues_ = Team(
+          name: 'Blues',
+          color: Colors.blue,
+          players: players.where((p) => !redIds.contains(p.id)).toList());
+      var diff_ = widget.group.skillNames
+          .map((s) => (reds_.skill(s) - blues_.skill(s)).abs())
+          .reduce((a, b) => a + b);
+      if (diff_ < diff) {
+        reds = reds_;
+        blues = blues_;
+        diff = diff_;
+      }
+    }
     return [reds, blues];
+  }
+}
+
+Iterable<List<T>> combinations<T>(int k, List<T> items) sync* {
+  if (k == 0) {
+    yield [];
+  } else {
+    for (var i = 0; i < items.length; i++) {
+      for (var suffix in combinations(k - 1, items.sublist(i + 1))) {
+        yield [items[i]] + suffix;
+      }
+    }
   }
 }
