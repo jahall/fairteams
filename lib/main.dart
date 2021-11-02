@@ -19,7 +19,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Fair Teams',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
       home: const Home(title: 'Fair Teams'),
     );
