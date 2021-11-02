@@ -13,10 +13,11 @@ phases:
       - export PATH="$PATH:`pwd`/flutter/bin"
       - flutter precache
       - flutter doctor
-build:
+  build:
     commands:
       - echo Build started on `date`
       - flutter build web
+      - ls -al
   post_build:
     commands:
       - echo Build completed on `date`
