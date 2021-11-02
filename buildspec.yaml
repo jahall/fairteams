@@ -8,7 +8,7 @@ phases:
       - pwd
   pre_build:
     commands:
-      - echo Pre Build started on `date`
+      - echo Pre-build started on `date`
       - git clone https://github.com/flutter/flutter.git -b stable
       - export PATH="$PATH:`pwd`/flutter/bin"
       - flutter precache
@@ -17,7 +17,6 @@ build:
     commands:
       - echo Build started on `date`
       - flutter build web
-      - ls -al
   post_build:
     commands:
       - echo Build completed on `date`
