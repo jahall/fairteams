@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -62,7 +63,14 @@ class Player {
     }
   }
 
+  double overallSkill(List<String> skillNames) {
+    // Aggregate skills to an overall score.
+    return skillNames.map((s) => skills[s] ?? 5.0).reduce((a, b) => a + b) /
+        skillNames.length;
+  }
+
   Widget skillDisplay(List<String> skillNames) {
+    // Pretty traffic light display of skills
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: skillNames
@@ -90,34 +98,53 @@ Color? skillColor(double value) {
 
 class Team {
   String name;
-  Color? color;
   late List<Player> players;
+  Color? color;
 
-  Team({this.name = '', players, this.color}) {
+  Team({this.name = '', skillNames, players, this.color}) {
     this.players = (players == null) ? [] : players;
   }
 
-  void add(Player player) {
-    players.add(player);
-    sort();
-  }
-
+  void add(Player player) => players.add(player);
   void remove(Player player) => players.removeWhere((p) => p.id == player.id);
 
-  double skill(String skillName) {
+  double skill(String skillName, {double? denominator}) {
+    // The aggregated skill value for this team.
+    if (players.isEmpty) {
+      return 0;
+    }
     return players
             .map((p) => p.skills[skillName] ?? 5)
             .reduce((a, b) => a + b) /
-        players.length;
+        (denominator ?? players.length);
   }
 
-  Map<String, double> skills(List<String> skillNames) {
-    return {for (var s in skillNames) s: skill(s)};
+  double overallSkill(List<String> skillNames, {double? denominator}) {
+    // The aggregated skill value for this team.
+    if (skillNames.isEmpty) {
+      return 0;
+    }
+    return skillNames
+            .map((s) => skill(s, denominator: denominator))
+            .reduce((a, b) => a + b) /
+        skillNames.length;
   }
 
-  void sort() {
-    players.sort(
-        (p1, p2) => p1.name.toLowerCase().compareTo(p2.name.toLowerCase()));
+  double diff(Team other, List<String> skillNames) {
+    // The difference in skills between this and another team.
+    double den =
+        max(players.length.toDouble(), other.players.length.toDouble());
+    return skillNames
+        .map((s) =>
+            (skill(s, denominator: den) - other.skill(s, denominator: den))
+                .abs())
+        .reduce((a, b) => a + b);
+  }
+
+  void sort(List<String> skillNames) {
+    // Sort players with the best at the top
+    players.sort((p1, p2) =>
+        p2.overallSkill(skillNames).compareTo(p1.overallSkill(skillNames)));
   }
 }
 
