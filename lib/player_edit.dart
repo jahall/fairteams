@@ -68,7 +68,6 @@ class _PlayerEditState extends State<PlayerEdit> {
     ];
     for (final skillName in widget.group.skillNames) {
       fields += _skillSlider(context, skillName);
-      fields += [sizedBoxSpace];
     }
     fields += [
       _submitButton(context),
@@ -78,34 +77,35 @@ class _PlayerEditState extends State<PlayerEdit> {
         style: Theme.of(context).textTheme.caption,
       ),
     ];
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],
-      child: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(children: fields),
-        ),
-      ),
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],
+          child: Scrollbar(
+            child: SingleChildScrollView(child: Column(children: fields)),
+          ),
+        ));
   }
 
   Widget _nameInput() {
-    return TextFormField(
-      textInputAction: TextInputAction.next,
-      textCapitalization: TextCapitalization.words,
-      decoration: const InputDecoration(
-        filled: true,
-        icon: Icon(Icons.person),
-        hintText: 'What is their name?',
-        labelText: 'Name*',
-      ),
-      initialValue: _name,
-      onSaved: (value) {
-        _name = (value == null) ? '' : value.toString();
-      },
-      validator: _validateName,
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: TextFormField(
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.words,
+          decoration: const InputDecoration(
+            filled: false,
+            //icon: Icon(Icons.person),
+            hintText: 'What is their name?',
+            labelText: 'Name*',
+          ),
+          initialValue: _name,
+          onSaved: (value) {
+            _name = (value == null) ? '' : value.toString();
+          },
+          validator: _validateName,
+        ));
   }
 
   List<Widget> _skillSlider(BuildContext contex, String skillName) {

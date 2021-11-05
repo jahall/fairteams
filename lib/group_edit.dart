@@ -19,6 +19,7 @@ class _GroupEditState extends State<GroupEdit> {
 
   String _name = '';
   String _sport = '';
+  List<Player> _players = [];
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _GroupEditState extends State<GroupEdit> {
     } else {
       _name = widget.group?.name ?? '';
       _sport = widget.group?.sport ?? '';
+      _players = widget.group?.players ?? [];
     }
   }
 
@@ -73,47 +75,51 @@ class _GroupEditState extends State<GroupEdit> {
   }
 
   Widget _nameInput() {
-    return TextFormField(
-      textInputAction: TextInputAction.next,
-      textCapitalization: TextCapitalization.words,
-      decoration: const InputDecoration(
-        filled: true,
-        icon: Icon(Icons.group),
-        hintText: 'What is the group called?',
-        labelText: 'Group Name*',
-      ),
-      initialValue: _name,
-      onChanged: (value) {
-        setState(() => _name = value.toString());
-      },
-      onSaved: (value) {
-        setState(() => _name = value?.toString() ?? '');
-      },
-      validator: _validateName,
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: TextFormField(
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.words,
+          decoration: const InputDecoration(
+            filled: false,
+            icon: Icon(Icons.group),
+            hintText: 'What is the group called?',
+            labelText: 'Group Name*',
+          ),
+          initialValue: _name,
+          onChanged: (value) {
+            setState(() => _name = value.toString());
+          },
+          onSaved: (value) {
+            setState(() => _name = value?.toString() ?? '');
+          },
+          validator: _validateName,
+        ));
   }
 
   Widget _sportInput() {
-    return DropdownButtonFormField(
-      value: _sport,
-      decoration: InputDecoration(
-        filled: true,
-        icon: Group(sport: _sport).icon(),
-        labelText: 'Sport',
-      ),
-      items: <String>['Basketball', 'Football']
-          .map((String value) => DropdownMenuItem(
-                value: value.toLowerCase(),
-                child: Text(value),
-              ))
-          .toList(),
-      onChanged: (value) {
-        setState(() => _sport = value.toString());
-      },
-      onSaved: (value) {
-        setState(() => _sport = value.toString());
-      },
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: DropdownButtonFormField(
+          value: _sport,
+          decoration: InputDecoration(
+            filled: false,
+            icon: Group(sport: _sport).icon(),
+            labelText: 'Sport',
+          ),
+          items: <String>['Basketball', 'Football']
+              .map((String value) => DropdownMenuItem(
+                    value: value.toLowerCase(),
+                    child: Text(value),
+                  ))
+              .toList(),
+          onChanged: (value) {
+            setState(() => _sport = value.toString());
+          },
+          onSaved: (value) {
+            setState(() => _sport = value.toString());
+          },
+        ));
   }
 
   Widget _submitButton(BuildContext context) {
@@ -143,7 +149,8 @@ class _GroupEditState extends State<GroupEdit> {
     if (!isValid) {
       _autoValidateModeIndex = AutovalidateMode.always.index;
     } else {
-      Group group = Group(id: widget.group?.id, name: _name, sport: _sport);
+      Group group = Group(
+          id: widget.group?.id, name: _name, sport: _sport, players: _players);
       if (_sport == 'football') {
         group.skillNames = ['Defence', 'Attack', 'Savvy', 'Fitness'];
       }
