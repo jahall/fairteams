@@ -39,6 +39,12 @@ class _GroupEditState extends State<GroupEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text((widget.group == null) ? 'New Group' : 'Edit Group'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.check),
+              onPressed: () => _handleSubmitted(context),
+              tooltip: 'Save Group'),
+        ],
       ),
       body: _buildForm(context),
     );
@@ -58,15 +64,6 @@ class _GroupEditState extends State<GroupEdit> {
               _nameInput(),
               sizedBoxSpace,
               _sportInput(),
-              sizedBoxSpace,
-              _submitButton(context),
-              sizedBoxSpace,
-              // Required fields note
-              Text(
-                '* indicates required field',
-                style: Theme.of(context).textTheme.caption,
-              ),
-              sizedBoxSpace,
             ],
           ),
         ),
@@ -120,15 +117,6 @@ class _GroupEditState extends State<GroupEdit> {
             setState(() => _sport = value.toString());
           },
         ));
-  }
-
-  Widget _submitButton(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () => _handleSubmitted(context),
-        child: const Text('Save'),
-      ),
-    );
   }
 
   String? _validateName(String? value) {

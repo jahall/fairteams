@@ -69,30 +69,16 @@ class Player {
         skillNames.length;
   }
 
-  Widget skillDisplay(List<String> skillNames) {
+  Widget skillDisplay(Color color, List<String> skillNames) {
     // Pretty traffic light display of skills
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: skillNames
           .map((skillName) => Icon(Icons.circle,
-              color: skillColor(skills[skillName] ?? 5.0), size: 12.0))
+              color: color.withOpacity((skills[skillName] ?? 5.0) / 10),
+              size: 12.0))
           .toList(),
     );
-  }
-}
-
-Color? skillColor(double value) {
-  // Could try Colors.lerp for linear interpolation between values
-  if (value > 8.5) {
-    return Colors.green;
-  } else if (value > 6.5) {
-    return Colors.lightGreen;
-  } else if (value > 4.5) {
-    return Colors.amber;
-  } else if (value > 2.5) {
-    return Colors.orange;
-  } else {
-    return Colors.red;
   }
 }
 

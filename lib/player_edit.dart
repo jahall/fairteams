@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
+import 'package:fairteams/slider.dart';
 
 class PlayerEdit extends StatefulWidget {
   const PlayerEdit({Key? key, required this.group, this.player})
@@ -50,6 +51,12 @@ class _PlayerEditState extends State<PlayerEdit> {
             tooltip: 'Delete Player'),
       ];
     }
+    actions += [
+      IconButton(
+          icon: const Icon(Icons.check),
+          onPressed: () => _handleSubmitted(context),
+          tooltip: 'Save Player'),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -69,14 +76,6 @@ class _PlayerEditState extends State<PlayerEdit> {
     for (final skillName in widget.group.skillNames) {
       fields += _skillSlider(context, skillName);
     }
-    fields += [
-      _submitButton(context),
-      sizedBoxSpace,
-      Text(
-        '* indicates required field',
-        style: Theme.of(context).textTheme.caption,
-      ),
-    ];
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Form(
@@ -112,29 +111,30 @@ class _PlayerEditState extends State<PlayerEdit> {
     var value = _skills[skillName] ?? 5;
     return [
       Text(skillName, style: Theme.of(context).textTheme.bodyText1),
-      Slider(
-        value: value,
-        min: 0,
-        max: 10,
-        divisions: 10,
-        label: value.round().toString(),
-        activeColor: skillColor(value),
-        onChanged: (double value) {
-          setState(() {
-            _skills[skillName] = value;
-          });
-        },
-      ),
+      const SizedBox(height: 4),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SliderWidget(
+              initialValue: value,
+              fullWidth: true,
+              min: 0,
+              max: 10,
+              onChanged: (double value) {
+                setState(() {
+                  _skills[skillName] = value;
+                });
+              })),
+      const SizedBox(height: 16),
+      //Slider(
+      //  value: value,
+      //  min: 0,
+      //  max: 10,
+      //  divisions: 10,
+      //  label: value.round().toString(),
+      //  activeColor: skillColor(value),
+      //  ,
+      //),
     ];
-  }
-
-  Widget _submitButton(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () => _handleSubmitted(context),
-        child: const Text('Save'),
-      ),
-    );
   }
 
   String? _validateName(String? value) {

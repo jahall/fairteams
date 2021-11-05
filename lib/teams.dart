@@ -251,7 +251,7 @@ class PlayerTile extends StatelessWidget {
                 Align(alignment: Alignment.centerLeft, child: Text(name)),
                 Align(
                     alignment: Alignment.centerLeft,
-                    child: player.skillDisplay(group.skillNames)),
+                    child: player.skillDisplay(color, group.skillNames)),
               ])),
           IconButton(icon: swapIcon, onPressed: onSwap, tooltip: 'Transfer'),
         ]));

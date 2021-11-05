@@ -30,19 +30,16 @@ class _PlayerSelectState extends State<PlayerSelect> {
             ),
           ),
         ),
-        const SizedBox(height: 8),
-        const Divider(thickness: 8),
-        const SizedBox(height: 8),
+        const SizedBox(height: 24),
         _selectedCountInfo(context),
-        const SizedBox(height: 8),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-              onPressed:
-                  (_selected.length > 1) ? () => _chooseTeams(context) : null,
-              child: const Text('Find Fair Teams')),
-        ]),
-        const SizedBox(height: 26),
+        const SizedBox(height: 24),
       ]),
+      floatingActionButton: Visibility(
+          visible: (_selected.length > 1),
+          child: FloatingActionButton.extended(
+            onPressed: () => _chooseTeams(context),
+            label: const Text('Choose Teams'),
+          )),
     );
   }
 

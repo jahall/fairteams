@@ -41,20 +41,14 @@ class GroupPage extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
-        const Divider(thickness: 8),
-        const SizedBox(height: 8),
+        const SizedBox(height: 24),
         _countInfo(context),
-        const SizedBox(height: 8),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-            onPressed:
-                (group.players.length > 1) ? () => _newGame(context) : null,
-            child: const Text('New Game'),
-          ),
-        ]),
-        const SizedBox(height: 26),
+        const SizedBox(height: 24),
       ]),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (group.players.length > 1) ? () => _newGame(context) : null,
+        label: const Text('New Game'),
+      ),
     );
   }
 
@@ -71,7 +65,7 @@ class GroupPage extends StatelessWidget {
               .map((p) => ListTile(
                     title: Text(p.name),
                     leading: p.icon(),
-                    trailing: p.skillDisplay(group.skillNames),
+                    trailing: p.skillDisplay(Colors.blue, group.skillNames),
                     onTap: () => _editPlayer(context, p),
                   ))
               .toList());
