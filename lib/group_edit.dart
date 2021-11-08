@@ -169,7 +169,7 @@ class _GroupEditState extends State<GroupEdit> {
             child: Row(children: [
               // Skill name
               SizedBox(
-                  width: width - 10 - 100 - 50,
+                  width: width - 10 - 85 - 50,
                   child: TextFormField(
                     key: Key(_sport + e.value.id),
                     textInputAction: TextInputAction.next,
@@ -190,7 +190,7 @@ class _GroupEditState extends State<GroupEdit> {
               const SizedBox(width: 10),
               // Importance
               SizedBox(
-                  width: 100,
+                  width: 85,
                   child: DropdownButtonFormField(
                     value: (e.value.importance > 1)
                         ? 'high'
