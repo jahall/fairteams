@@ -19,7 +19,21 @@ class _GroupEditState extends State<GroupEdit> {
 
   String _name = '';
   String _sport = '';
+  List<Skill> _skills = [];
   List<Player> _players = [];
+
+  static final _defaultSkills = {
+    'basketball': [
+      Skill(id: '1', name: 'Passing'),
+      Skill(id: '2', name: 'Positioning'),
+      Skill(id: '3', name: 'Shooting')
+    ],
+    'football': [
+      Skill(id: '1', name: 'Attack'),
+      Skill(id: '2', name: 'Defence'),
+      Skill(id: '3', name: 'Shooting')
+    ],
+  };
 
   @override
   void initState() {
@@ -27,9 +41,11 @@ class _GroupEditState extends State<GroupEdit> {
     if (widget.group == null) {
       _name = '';
       _sport = 'football';
+      _skills = List.from(_defaultSkills[_sport]!);
     } else {
       _name = widget.group?.name ?? '';
       _sport = widget.group?.sport ?? '';
+      _skills = List.from(widget.group?.skills ?? []);
       _players = widget.group?.players ?? [];
     }
   }
@@ -46,27 +62,38 @@ class _GroupEditState extends State<GroupEdit> {
               tooltip: 'Save Group'),
         ],
       ),
-      body: _buildForm(context),
-    );
-  }
-
-  Widget _buildForm(BuildContext context) {
-    const sizedBoxSpace = SizedBox(height: 24);
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],
-      child: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              sizedBoxSpace,
-              _nameInput(),
-              sizedBoxSpace,
-              _sportInput(),
-            ],
+      body: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                    const SizedBox(height: 24),
+                    _nameInput(),
+                    const SizedBox(height: 16),
+                    _sportInput(),
+                    const SizedBox(height: 24),
+                    Text('SKILLS', style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 8),
+                  ] +
+                  _skillsInput() +
+                  [
+                    const SizedBox(height: 8),
+                    IconButton(
+                        icon: const Icon(Icons.add_circle,
+                            color: Colors.blue, size: 32.0),
+                        onPressed: () => setState(() => _skills.add(Skill())),
+                        tooltip: 'New Skill')
+                  ],
+            ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _handleSubmitted(context),
+        label: const Text('Save'),
       ),
     );
   }
@@ -79,7 +106,7 @@ class _GroupEditState extends State<GroupEdit> {
           textCapitalization: TextCapitalization.words,
           decoration: const InputDecoration(
             filled: false,
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.group, color: Colors.blue),
             hintText: 'What is the group called?',
             labelText: 'Group Name*',
           ),
@@ -101,7 +128,7 @@ class _GroupEditState extends State<GroupEdit> {
           value: _sport,
           decoration: InputDecoration(
             filled: false,
-            icon: Group(sport: _sport).icon(),
+            icon: Group(sport: _sport).icon(color: Colors.blue),
             labelText: 'Sport',
           ),
           items: <String>['Basketball', 'Football']
@@ -110,13 +137,91 @@ class _GroupEditState extends State<GroupEdit> {
                     child: Text(value),
                   ))
               .toList(),
-          onChanged: (value) {
-            setState(() => _sport = value.toString());
-          },
-          onSaved: (value) {
-            setState(() => _sport = value.toString());
-          },
+          onChanged: (value) => setState(() {
+            _sport = value.toString();
+            _skills = List.from(_defaultSkills[_sport.toLowerCase()] ?? []);
+          }),
+          onSaved: (value) => setState(() => _sport = value.toString()),
         ));
+  }
+
+  List<Widget> _skillsInput() {
+    void onNameSaved(index, value) {
+      _skills[index].name = value.toString();
+    }
+
+    void onImportanceSaved(index, value) {
+      _skills[index].importance = (value == 'high')
+          ? 2.0
+          : (value == 'low')
+              ? 0.5
+              : 1.0;
+    }
+
+    // Ruddy issues with unconstrained row widths...
+    var width = MediaQuery.of(context).size.width - 16 * 2 - 24 * 2;
+
+    return _skills
+        .asMap()
+        .entries
+        .map((e) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(children: [
+              // Skill name
+              SizedBox(
+                  width: width - 10 - 100 - 50,
+                  child: TextFormField(
+                    key: Key(_sport + e.value.id),
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      filled: false,
+                      icon: Icon(Icons.flash_on, color: Colors.blue),
+                      labelText: 'Skill',
+                      hintText: 'Name of this skill?',
+                    ),
+                    initialValue: e.value.name,
+                    onChanged: (value) =>
+                        setState(() => onNameSaved(e.key, value)),
+                    onSaved: (value) =>
+                        setState(() => onNameSaved(e.key, value)),
+                    validator: _validateName,
+                  )),
+              const SizedBox(width: 10),
+              // Importance
+              SizedBox(
+                  width: 100,
+                  child: DropdownButtonFormField(
+                    value: (e.value.importance > 1)
+                        ? 'high'
+                        : (e.value.importance < 1)
+                            ? 'low'
+                            : 'medium',
+                    decoration: const InputDecoration(
+                      filled: false,
+                      labelText: 'Importance',
+                    ),
+                    items: <String>['High', 'Medium', 'Low']
+                        .map((String value) => DropdownMenuItem(
+                              value: value.toLowerCase(),
+                              child: Text(value),
+                            ))
+                        .toList(),
+                    onChanged: (value) =>
+                        setState(() => onImportanceSaved(e.key, value)),
+                    onSaved: (value) =>
+                        setState(() => onImportanceSaved(e.key, value)),
+                  )),
+              // Delete button
+              SizedBox(
+                width: 50,
+                child: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.grey[600]),
+                    onPressed: () => setState(() => _skills.removeAt(e.key)),
+                    tooltip: 'Delete Skill'),
+              ),
+            ])))
+        .toList();
   }
 
   String? _validateName(String? value) {
@@ -138,10 +243,12 @@ class _GroupEditState extends State<GroupEdit> {
       _autoValidateModeIndex = AutovalidateMode.always.index;
     } else {
       Group group = Group(
-          id: widget.group?.id, name: _name, sport: _sport, players: _players);
-      if (_sport == 'football') {
-        group.skillNames = ['Defence', 'Attack', 'Savvy', 'Fitness'];
-      }
+          id: widget.group?.id,
+          name: _name,
+          sport: _sport,
+          skills: _skills,
+          players: _players);
+      print(_skills.map((s) => s.name).toList().toString());
       form?.save();
       Provider.of<AppState>(context, listen: false).addOrUpdateGroup(group);
       Navigator.of(context).pop();

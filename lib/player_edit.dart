@@ -21,7 +21,7 @@ class _PlayerEditState extends State<PlayerEdit> {
   int _autoValidateModeIndex = AutovalidateMode.disabled.index;
 
   String _name = '';
-  Map<String, double> _skills = {};
+  Map<String, double> _abilities = {};
   Set<String> _existingNames = {};
 
   @override
@@ -30,10 +30,10 @@ class _PlayerEditState extends State<PlayerEdit> {
     _existingNames = widget.group.players.map((player) => player.name).toSet();
     if (widget.player == null) {
       _name = '';
-      _skills = {};
+      _abilities = {};
     } else {
       _name = widget.player?.name ?? '';
-      _skills = Map.from(widget.player?.skills ?? {});
+      _abilities = Map.from(widget.player?.abilities ?? {});
       _existingNames.remove(_name);
     }
   }
@@ -73,8 +73,8 @@ class _PlayerEditState extends State<PlayerEdit> {
       _nameInput(),
       sizedBoxSpace,
     ];
-    for (final skillName in widget.group.skillNames) {
-      fields += _skillSlider(context, skillName);
+    for (final skill in widget.group.skills) {
+      fields += _skillSlider(context, skill);
     }
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -107,10 +107,10 @@ class _PlayerEditState extends State<PlayerEdit> {
         ));
   }
 
-  List<Widget> _skillSlider(BuildContext contex, String skillName) {
-    var value = _skills[skillName] ?? 5;
+  List<Widget> _skillSlider(BuildContext contex, Skill skill) {
+    var value = _abilities[skill.id] ?? 5;
     return [
-      Text(skillName, style: Theme.of(context).textTheme.bodyText1),
+      Text(skill.name, style: Theme.of(context).textTheme.bodyText1),
       const SizedBox(height: 4),
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -121,19 +121,10 @@ class _PlayerEditState extends State<PlayerEdit> {
               max: 10,
               onChanged: (double value) {
                 setState(() {
-                  _skills[skillName] = value;
+                  _abilities[skill.id] = value;
                 });
               })),
       const SizedBox(height: 16),
-      //Slider(
-      //  value: value,
-      //  min: 0,
-      //  max: 10,
-      //  divisions: 10,
-      //  label: value.round().toString(),
-      //  activeColor: skillColor(value),
-      //  ,
-      //),
     ];
   }
 
@@ -160,7 +151,7 @@ class _PlayerEditState extends State<PlayerEdit> {
     } else {
       form?.save();
       Player player =
-          Player(id: widget.player?.id, name: _name, skills: _skills);
+          Player(id: widget.player?.id, name: _name, abilities: _abilities);
       Provider.of<AppState>(context, listen: false)
           .addOrUpdatePlayer(widget.group.id, player);
       Navigator.of(context).pop();

@@ -125,9 +125,9 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                       width: width,
                       onSwap: () => setState(() {
                             _blues.add(_reds.players[i]);
-                            _blues.sort(widget.group.skillNames);
+                            _blues.sort(widget.group.skills);
                             _reds.remove(_reds.players[i]);
-                            _reds.sort(widget.group.skillNames);
+                            _reds.sort(widget.group.skills);
                             _showSwapComment = true;
                           }))
                   : SizedBox(width: width),
@@ -144,9 +144,9 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                       width: width,
                       onSwap: () => setState(() {
                             _reds.add(_blues.players[i]);
-                            _reds.sort(widget.group.skillNames);
+                            _reds.sort(widget.group.skills);
                             _blues.remove(_blues.players[i]);
-                            _blues.sort(widget.group.skillNames);
+                            _blues.sort(widget.group.skills);
                             _showSwapComment = true;
                           }))
                   : SizedBox(width: width),
@@ -159,23 +159,21 @@ class _ChooseTeamsState extends State<ChooseTeams> {
   Widget _teamComparison() {
     double d =
         max(_reds.players.length.toDouble(), _blues.players.length.toDouble());
-    var redOverall =
-        _reds.overallSkill(widget.group.skillNames, denominator: d);
+    var redOverall = _reds.overallAbility(widget.group.skills, denominator: d);
     var blueOverall =
-        _blues.overallSkill(widget.group.skillNames, denominator: d);
+        _blues.overallAbility(widget.group.skills, denominator: d);
     var overall = SkillRow(
-        skillName: 'Overall', redSkill: redOverall, blueSkill: blueOverall);
-    var breakdown =
-        widget.group.skillNames.map((s) => _skillRow(s, d)).toList();
+        skillName: 'Overall', redAbility: redOverall, blueAbility: blueOverall);
+    var breakdown = widget.group.skills.map((s) => _skillRow(s, d)).toList();
     return Column(
         children: <Widget>[overall, const Divider(thickness: 2)] + breakdown);
   }
 
-  Widget _skillRow(String skillName, double denominator) {
-    var redSkill = _reds.skill(skillName, denominator: denominator);
-    var blueSkill = _blues.skill(skillName, denominator: denominator);
+  Widget _skillRow(Skill skill, double denominator) {
+    var rAbility = _reds.ability(skill, denominator: denominator);
+    var bAbility = _blues.ability(skill, denominator: denominator);
     return SkillRow(
-        skillName: skillName, redSkill: redSkill, blueSkill: blueSkill);
+        skillName: skill.name, redAbility: rAbility, blueAbility: bAbility);
   }
 
   // TEAM FINDING ***********************************************************
@@ -192,15 +190,15 @@ class _ChooseTeamsState extends State<ChooseTeams> {
           name: 'Blues',
           color: Colors.blue,
           players: players.where((p) => !redIds.contains(p.id)).toList());
-      var diff_ = reds_.diff(blues_, widget.group.skillNames);
+      var diff_ = reds_.diff(blues_, widget.group.skills);
       if (diff_ < diff) {
         reds = reds_;
         blues = blues_;
         diff = diff_;
       }
     }
-    reds.sort(widget.group.skillNames);
-    blues.sort(widget.group.skillNames);
+    reds.sort(widget.group.skills);
+    blues.sort(widget.group.skills);
     return [reds, blues];
   }
 }
@@ -237,7 +235,7 @@ class PlayerTile extends StatelessWidget {
                     alignment: Alignment.centerLeft, child: Text(player.name)),
                 Align(
                     alignment: Alignment.centerLeft,
-                    child: player.skillDisplay(color, group.skillNames)),
+                    child: player.abilityDisplay(group.skills, color: color)),
               ])),
           IconButton(icon: swapIcon, onPressed: onSwap, tooltip: 'Transfer'),
         ]));
@@ -248,19 +246,19 @@ class SkillRow extends StatelessWidget {
   const SkillRow(
       {Key? key,
       required this.skillName,
-      required this.redSkill,
-      required this.blueSkill})
+      required this.redAbility,
+      required this.blueAbility})
       : super(key: key);
 
   final String skillName;
-  final double redSkill;
-  final double blueSkill;
+  final double redAbility;
+  final double blueAbility;
 
   @override
   Widget build(BuildContext context) {
-    var rs = (100 * redSkill).round() / 100;
-    var bs = (100 * blueSkill).round() / 100;
-    var diff = rs - bs;
+    var ra = (100 * redAbility).round() / 100;
+    var ba = (100 * blueAbility).round() / 100;
+    var diff = ra - ba;
     final style = Theme.of(context).textTheme.bodyText1;
 
     Widget scoreView(double score, Color color, bool bold) {
@@ -286,13 +284,13 @@ class SkillRow extends StatelessWidget {
         height: 22,
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           diffView(diff > 0.005),
-          scoreView(rs, Colors.red, diff > 0.005),
+          scoreView(ra, Colors.red, diff > 0.005),
           SizedBox(
               child: Align(
                   alignment: Alignment.center,
                   child: Text(skillName, style: style)),
               width: 120),
-          scoreView(bs, Colors.blue, diff < -0.005),
+          scoreView(ba, Colors.blue, diff < -0.005),
           diffView(diff < -0.005),
         ]));
   }

@@ -65,7 +65,8 @@ class GroupPage extends StatelessWidget {
               .map((p) => ListTile(
                     title: Text(p.name),
                     leading: p.icon(),
-                    trailing: p.skillDisplay(Colors.blue, group.skillNames),
+                    trailing:
+                        p.abilityDisplay(group.skills, color: Colors.blue),
                     onTap: () => _editPlayer(context, p),
                   ))
               .toList());

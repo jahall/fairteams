@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
                           trailing: IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () => _removeGroup(context, group),
-                              tooltip: 'Edit Group'),
+                              tooltip: 'Delete Group'),
                           onTap: () => _showGroup(context, group),
                         ))
                     .toList()),
