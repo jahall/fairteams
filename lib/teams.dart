@@ -54,11 +54,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
             _teamHeader(context),
             const SizedBox(height: 2),
             _teamColumns(context),
-            const SizedBox(height: 4),
-            Text(
-              (_showSwapComment) ? '* indicates suggested swap' : '',
-              style: Theme.of(context).textTheme.caption,
-            ),
             const SizedBox(height: 8),
             _header(context, "Comparison"),
             const SizedBox(height: 8),
@@ -108,6 +103,7 @@ class _ChooseTeamsState extends State<ChooseTeams> {
 
   Widget _teamColumns(BuildContext context) {
     var width = (MediaQuery.of(context).size.width - 16 * 3) / 2;
+    var optimalReds = _optimalRedPlayers.map((p) => p.id).toSet();
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(children: [
@@ -123,10 +119,10 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                       player: _reds.players[i],
                       swapIcon: const Icon(Icons.keyboard_arrow_right,
                           color: Colors.grey),
-                      color: Colors.red,
+                      color: (optimalReds.contains(_reds.players[i].id))
+                          ? Colors.red
+                          : Colors.blue,
                       width: width,
-                      recommendSwap:
-                          _recommendSwap(_reds.players[i], _optimalRedPlayers),
                       onSwap: () => setState(() {
                             _blues.add(_reds.players[i]);
                             _blues.sort(widget.group.skillNames);
@@ -142,10 +138,10 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                       player: _blues.players[i],
                       swapIcon: const Icon(Icons.keyboard_arrow_left,
                           color: Colors.grey),
-                      color: Colors.blue,
+                      color: (optimalReds.contains(_blues.players[i].id))
+                          ? Colors.red
+                          : Colors.blue,
                       width: width,
-                      recommendSwap: _recommendSwap(
-                          _blues.players[i], _optimalBluePlayers),
                       onSwap: () => setState(() {
                             _reds.add(_blues.players[i]);
                             _reds.sort(widget.group.skillNames);
@@ -156,11 +152,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                   : SizedBox(width: width),
             ])
         ]));
-  }
-
-  bool _recommendSwap(Player player, List<Player> optimalPlayers) {
-    var ids = optimalPlayers.map((p) => p.id).toSet();
-    return !ids.contains(player.id);
   }
 
   // TEAM COMPARISON ********************************************************
@@ -221,7 +212,6 @@ class PlayerTile extends StatelessWidget {
       required this.player,
       required this.color,
       required this.width,
-      required this.recommendSwap,
       required this.swapIcon,
       this.onSwap})
       : super(key: key);
@@ -230,16 +220,11 @@ class PlayerTile extends StatelessWidget {
   final Player player;
   final Color color;
   final double width;
-  final bool recommendSwap;
   final Icon swapIcon;
   final void Function()? onSwap;
 
   @override
   Widget build(BuildContext context) {
-    var name = player.name;
-    if (recommendSwap) {
-      name += '*';
-    }
     return SizedBox(
         height: 50,
         width: width,
@@ -248,7 +233,8 @@ class PlayerTile extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                Align(alignment: Alignment.centerLeft, child: Text(name)),
+                Align(
+                    alignment: Alignment.centerLeft, child: Text(player.name)),
                 Align(
                     alignment: Alignment.centerLeft,
                     child: player.skillDisplay(color, group.skillNames)),
@@ -272,14 +258,16 @@ class SkillRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var diff = redSkill - blueSkill;
+    var rs = (100 * redSkill).round() / 100;
+    var bs = (100 * blueSkill).round() / 100;
+    var diff = rs - bs;
     final style = Theme.of(context).textTheme.bodyText1;
 
     Widget scoreView(double score, Color color, bool bold) {
       return SizedBox(
           child: Align(
               alignment: Alignment.center,
-              child: Text(score.toStringAsFixed(1),
+              child: Text(score.toStringAsFixed(2),
                   style: style?.apply(
                       color: color, fontWeightDelta: (bold) ? 50 : 0))),
           width: 40);
@@ -289,7 +277,7 @@ class SkillRow extends StatelessWidget {
       return SizedBox(
           child: Align(
               alignment: Alignment.center,
-              child: Text((show) ? '+${diff.abs().toStringAsFixed(1)}' : '',
+              child: Text((show) ? '+${diff.abs().toStringAsFixed(2)}' : '',
                   style: style?.apply(color: Colors.green))),
           width: 60);
     }
@@ -297,15 +285,15 @@ class SkillRow extends StatelessWidget {
     return SizedBox(
         height: 22,
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          diffView(diff > 0.05),
-          scoreView(redSkill, Colors.red, diff > 0.05),
+          diffView(diff > 0.005),
+          scoreView(rs, Colors.red, diff > 0.005),
           SizedBox(
               child: Align(
                   alignment: Alignment.center,
                   child: Text(skillName, style: style)),
               width: 120),
-          scoreView(blueSkill, Colors.blue, diff < -0.05),
-          diffView(diff < -0.05),
+          scoreView(bs, Colors.blue, diff < -0.005),
+          diffView(diff < -0.005),
         ]));
   }
 }

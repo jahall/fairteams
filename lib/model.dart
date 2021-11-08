@@ -120,11 +120,15 @@ class Team {
     // The difference in skills between this and another team.
     double den =
         max(players.length.toDouble(), other.players.length.toDouble());
-    return skillNames
+    double overallDiff = (overallSkill(skillNames, denominator: den) -
+            other.overallSkill(skillNames, denominator: den))
+        .abs();
+    double skillDiff = skillNames
         .map((s) =>
             (skill(s, denominator: den) - other.skill(s, denominator: den))
                 .abs())
         .reduce((a, b) => a + b);
+    return 10 * overallDiff + skillDiff;
   }
 
   void sort(List<String> skillNames) {
