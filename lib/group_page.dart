@@ -61,7 +61,7 @@ class GroupPage extends StatelessWidget {
     List<Widget> fields = group.players
         .map<Widget>((p) => SizedBox(
               width: width,
-              height: 50,
+              height: 40,
               child: Row(children: [
                 SizedBox(width: 50, child: p.icon(color: Colors.blue)),
                 Expanded(
@@ -69,7 +69,7 @@ class GroupPage extends StatelessWidget {
                         alignment: Alignment.centerLeft, child: Text(p.name))),
                 p.abilityDisplay(group.skills, color: Colors.blue),
                 SizedBox(
-                    width: 35,
+                    width: 50,
                     child: IconButton(
                         icon: const Icon(Icons.edit, color: Colors.grey),
                         onPressed: () => _editPlayer(context, p),

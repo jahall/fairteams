@@ -50,7 +50,7 @@ class _PlayerSelectState extends State<PlayerSelect> {
     List<Widget> fields = widget.group.players
         .map<Widget>((p) => SizedBox(
               width: width,
-              height: 35,
+              height: 40,
               child: Row(children: [
                 SizedBox(width: 50, child: p.icon(color: Colors.blue)),
                 Expanded(
