@@ -38,10 +38,13 @@ class Home extends StatelessWidget {
         //centerTitle: false,
         title: Text(title),
         actions: [
-          IconButton(
-              icon: const Icon(Icons.group_add),
-              onPressed: () => _newGroup(context),
-              tooltip: 'New Group'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: IconButton(
+                icon: const Icon(Icons.group_add),
+                onPressed: () => _newGroup(context),
+                tooltip: 'New Group'),
+          )
         ],
       ),
       body: Scrollbar(
@@ -53,9 +56,9 @@ class Home extends StatelessWidget {
                     .map((group) => ListTile(
                           title: Text(group.name),
                           subtitle: Text(group.subtitle()),
-                          leading: group.icon(),
+                          leading: group.icon(color: Colors.blue),
                           trailing: IconButton(
-                              icon: const Icon(Icons.delete),
+                              icon: const Icon(Icons.cancel),
                               onPressed: () => _removeGroup(context, group),
                               tooltip: 'Delete Group'),
                           onTap: () => _showGroup(context, group),

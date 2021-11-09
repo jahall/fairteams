@@ -22,17 +22,19 @@ class _PlayerSelectState extends State<PlayerSelect> {
         title: const Text('Select Players'),
       ),
       body: Column(children: [
+        const SizedBox(height: 24),
+        _selectedCountInfo(context),
+        const SizedBox(height: 12),
+        const Divider(thickness: 2),
+        const SizedBox(height: 6),
         Expanded(
           child: Scrollbar(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _playerSelection(),
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        _selectedCountInfo(context),
-        const SizedBox(height: 24),
       ]),
       floatingActionButton: Visibility(
           visible: (_selected.length > 1),
@@ -44,23 +46,34 @@ class _PlayerSelectState extends State<PlayerSelect> {
   }
 
   Widget _playerSelection() {
-    return Column(
-        children: widget.group.players
-            .map((player) => CheckboxListTile(
-                  title: Text(player.name),
-                  secondary: player.icon(),
-                  value: _selected.contains(player.id),
-                  onChanged: (_) {
-                    setState(() {
-                      if (_selected.contains(player.id)) {
-                        _selected.remove(player.id);
-                      } else {
-                        _selected.add(player.id);
-                      }
-                    });
-                  },
-                ))
-            .toList());
+    var width = MediaQuery.of(context).size.width - 16 * 2;
+    List<Widget> fields = widget.group.players
+        .map<Widget>((p) => SizedBox(
+              width: width,
+              height: 35,
+              child: Row(children: [
+                SizedBox(width: 50, child: p.icon(color: Colors.blue)),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment.centerLeft, child: Text(p.name))),
+                p.abilityDisplay(widget.group.skills, color: Colors.blue),
+                SizedBox(
+                    width: 50,
+                    child: Checkbox(
+                        value: _selected.contains(p.id),
+                        onChanged: (_) {
+                          setState(() {
+                            if (_selected.contains(p.id)) {
+                              _selected.remove(p.id);
+                            } else {
+                              _selected.add(p.id);
+                            }
+                          });
+                        })),
+              ]),
+            ))
+        .toList();
+    return Column(children: fields + <Widget>[const SizedBox(height: 64)]);
   }
 
   Widget _selectedCountInfo(BuildContext context) {

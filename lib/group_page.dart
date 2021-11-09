@@ -23,27 +23,31 @@ class GroupPage extends StatelessWidget {
             tooltip: 'Home'),
         actions: [
           IconButton(
-              icon: const Icon(Icons.person_add),
-              onPressed: () => _newPlayer(context),
-              tooltip: 'New Player'),
-          IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () => _editGroup(context),
               tooltip: 'Edit Group'),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: IconButton(
+                  icon: const Icon(Icons.person_add),
+                  onPressed: () => _newPlayer(context),
+                  tooltip: 'New Player')),
         ],
       ),
       body: Column(children: [
+        const SizedBox(height: 24),
+        _countInfo(context),
+        const SizedBox(height: 12),
+        const Divider(thickness: 2),
+        const SizedBox(height: 6),
         Expanded(
           child: Scrollbar(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _playerList(context),
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        _countInfo(context),
-        const SizedBox(height: 24),
       ]),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (group.players.length > 1) ? () => _newGame(context) : null,
@@ -53,28 +57,36 @@ class GroupPage extends StatelessWidget {
   }
 
   Widget _playerList(BuildContext context) {
-    if (group.players.isEmpty) {
-      return Column(children: [
-        Text('You need to add some players!',
-            style: Theme.of(context).textTheme.caption,
-            textAlign: TextAlign.center)
-      ]);
-    } else {
-      return Column(
-          children: group.players
-              .map((p) => ListTile(
-                    title: Text(p.name),
-                    leading: p.icon(),
-                    trailing:
-                        p.abilityDisplay(group.skills, color: Colors.blue),
-                    onTap: () => _editPlayer(context, p),
-                  ))
-              .toList());
-    }
+    var width = MediaQuery.of(context).size.width - 16 * 2;
+    List<Widget> fields = group.players
+        .map<Widget>((p) => SizedBox(
+              width: width,
+              height: 50,
+              child: Row(children: [
+                SizedBox(width: 50, child: p.icon(color: Colors.blue)),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment.centerLeft, child: Text(p.name))),
+                p.abilityDisplay(group.skills, color: Colors.blue),
+                SizedBox(
+                    width: 35,
+                    child: IconButton(
+                        icon: const Icon(Icons.edit, color: Colors.grey),
+                        onPressed: () => _editPlayer(context, p),
+                        tooltip: 'Edit Player')),
+              ]),
+            ))
+        .toList();
+    return Column(children: fields + <Widget>[const SizedBox(height: 64)]);
   }
 
   Widget _countInfo(BuildContext context) {
     return Consumer<AppState>(builder: (context, model, child) {
+      if (group.players.isEmpty) {
+        return Text('You need to add some players!',
+            style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center);
+      }
       List<TextSpan> parts = [
         const TextSpan(text: 'You have '),
         TextSpan(

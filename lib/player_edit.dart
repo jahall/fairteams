@@ -46,16 +46,18 @@ class _PlayerEditState extends State<PlayerEdit> {
       title = 'Edit Player';
       actions = [
         IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.cancel),
             onPressed: () => _removePlayer(context),
             tooltip: 'Delete Player'),
       ];
     }
     actions += [
-      IconButton(
-          icon: const Icon(Icons.check),
-          onPressed: () => _handleSubmitted(context),
-          tooltip: 'Save Player'),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+          child: IconButton(
+              icon: const Icon(Icons.check),
+              onPressed: () => _handleSubmitted(context),
+              tooltip: 'Save Player')),
     ];
     return Scaffold(
       appBar: AppBar(

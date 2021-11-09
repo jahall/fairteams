@@ -44,14 +44,14 @@ class _SliderWidgetState extends State<SliderWidget> {
         borderRadius: BorderRadius.all(
           Radius.circular((widget.sliderHeight * .3)),
         ),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
             colors: [
-              Color(0xFF00c6ff),
-              Color(0xFF0072ff),
+              Colors.blue[300]!,
+              Colors.blue,
             ],
-            begin: FractionalOffset(0.0, 0.0),
-            end: FractionalOffset(1.0, 1.00),
-            stops: [0.0, 1.0],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(1.0, 1.00),
+            stops: const [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
       child: Padding(
