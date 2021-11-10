@@ -3,27 +3,59 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+// Skill *********************************************************************
+
 class Skill {
-  // Class representing a skill
   late final String id;
-  String name;
-  double importance;
+  String name = '';
+  double importance = 1.0;
 
   Skill({id, this.name = '', this.importance = 1.0}) {
     this.id = (id == null) ? const Uuid().v4() : id;
   }
+
+  Skill.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    importance = json['importance'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'importance': importance,
+      };
 }
+
+// Player ********************************************************************
 
 class Player {
   // Class to represent a player
   late final String id;
-  String name;
+  String name = '';
   late Map<String, double> abilities;
 
   Player({id, this.name = '', abilities}) {
     this.id = (id == null) ? const Uuid().v4() : id;
     this.abilities = (abilities == null) ? {} : abilities;
   }
+
+  Player.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    // Abilities persisted as a list as makes more intuitive sense
+    abilities = {
+      for (var item in json['abilities']) item['skillId']: item['ability']
+    };
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'abilities': abilities.entries
+            .map((e) => {'skillId': e.key, 'ability': e.value})
+            .toList(),
+      };
 
   double ability(Skill skill) {
     // Player ability for a single skill
@@ -58,6 +90,8 @@ class Player {
     }
   }
 }
+
+// Team **********************************************************************
 
 class Team {
   String name;
@@ -113,11 +147,13 @@ class Team {
   }
 }
 
+// Group *********************************************************************
+
 class Group {
   // Class representing a group of players of a given sport
   late final String id;
-  String name;
-  String sport;
+  String name = '';
+  String sport = '';
   late List<Skill> skills; // late allows null in constructor
   late Map<String, Player> _players;
 
@@ -126,6 +162,25 @@ class Group {
     this.skills = (skills == null) ? [] : skills;
     _players = (players == null) ? {} : {for (var p in players) p.id: p};
   }
+
+  Group.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    sport = json['sport'];
+    skills = json['skills'].map<Skill>((blob) => Skill.fromJson(blob)).toList();
+    // Players persisted as a list as makes more intuitive sense
+    _players = {
+      for (var item in json['players']) item['id']: Player.fromJson(item)
+    };
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'sport': sport,
+        'skills': skills,
+        'players': _players.entries.map((e) => e.value).toList(),
+      };
 
   Player player(String id) {
     return _players[id]!;

@@ -45,26 +45,25 @@ class _PlayerEditState extends State<PlayerEdit> {
     if (widget.player != null) {
       title = 'Edit Player';
       actions = [
-        IconButton(
-            icon: const Icon(Icons.cancel),
-            onPressed: () => _removePlayer(context),
-            tooltip: 'Delete Player'),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: IconButton(
+                icon: const Icon(Icons.cancel),
+                onPressed: () => _removePlayer(context),
+                tooltip: 'Delete Player')),
       ];
     }
-    actions += [
-      Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-          child: IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () => _handleSubmitted(context),
-              tooltip: 'Save Player')),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: actions,
       ),
       body: _buildForm(context),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _handleSubmitted(context),
+        label: const Text('Save'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

@@ -19,7 +19,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
   late Team _blues;
   late List<Player> _optimalRedPlayers;
   late List<Player> _optimalBluePlayers;
-  bool _showSwapComment = false;
 
   @override
   void initState() {
@@ -29,7 +28,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
     _blues = teams[1];
     _optimalRedPlayers = List.from(_reds.players);
     _optimalBluePlayers = List.from(_blues.players);
-    _showSwapComment = false;
   }
 
   @override
@@ -40,11 +38,13 @@ class _ChooseTeamsState extends State<ChooseTeams> {
               icon: const Icon(Icons.rotate_left),
               onPressed: _revertToOptimal,
               tooltip: 'Revert Teams'),
-          IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () =>
-                  Navigator.of(context).popUntil((route) => route.isFirst),
-              tooltip: 'Home'),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: IconButton(
+                  icon: const Icon(Icons.home),
+                  onPressed: () =>
+                      Navigator.of(context).popUntil((route) => route.isFirst),
+                  tooltip: 'Home')),
         ]),
         body: Scrollbar(
             child: SingleChildScrollView(
@@ -66,7 +66,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
     setState(() {
       _reds.players = List.from(_optimalRedPlayers);
       _blues.players = List.from(_optimalBluePlayers);
-      _showSwapComment = false;
     });
   }
 
@@ -128,7 +127,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                             _blues.sort(widget.group.skills);
                             _reds.remove(_reds.players[i]);
                             _reds.sort(widget.group.skills);
-                            _showSwapComment = true;
                           }))
                   : SizedBox(width: width),
               const SizedBox(width: 16),
@@ -147,7 +145,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                             _reds.sort(widget.group.skills);
                             _blues.remove(_blues.players[i]);
                             _blues.sort(widget.group.skills);
-                            _showSwapComment = true;
                           }))
                   : SizedBox(width: width),
             ])

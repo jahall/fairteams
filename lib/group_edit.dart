@@ -26,12 +26,14 @@ class _GroupEditState extends State<GroupEdit> {
     'basketball': [
       Skill(id: '1', name: 'Passing'),
       Skill(id: '2', name: 'Positioning'),
-      Skill(id: '3', name: 'Shooting')
+      Skill(id: '3', name: 'Shooting'),
     ],
     'football': [
-      Skill(id: '1', name: 'Attack'),
-      Skill(id: '2', name: 'Defence'),
-      Skill(id: '3', name: 'Shooting')
+      Skill(id: '1', name: 'Defending'),
+      Skill(id: '2', name: 'Passing'),
+      Skill(id: '3', name: 'Pace'),
+      Skill(id: '4', name: 'Dribbling'),
+      Skill(id: '5', name: 'Shooting'),
     ],
   };
 
@@ -55,12 +57,6 @@ class _GroupEditState extends State<GroupEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text((widget.group == null) ? 'New Group' : 'Edit Group'),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () => _handleSubmitted(context),
-              tooltip: 'Save Group'),
-        ],
       ),
       body: Form(
         key: _formKey,
@@ -95,6 +91,7 @@ class _GroupEditState extends State<GroupEdit> {
         onPressed: () => _handleSubmitted(context),
         label: const Text('Save'),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

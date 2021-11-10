@@ -39,11 +39,11 @@ class Home extends StatelessWidget {
         title: Text(title),
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 32, 0),
             child: IconButton(
-                icon: const Icon(Icons.group_add),
-                onPressed: () => _newGroup(context),
-                tooltip: 'New Group'),
+                icon: const Icon(Icons.rotate_left),
+                onPressed: () => _revertToExample(context),
+                tooltip: 'Revert to Example'),
           )
         ],
       ),
@@ -58,7 +58,7 @@ class Home extends StatelessWidget {
                           subtitle: Text(group.subtitle()),
                           leading: group.icon(color: Colors.blue),
                           trailing: IconButton(
-                              icon: const Icon(Icons.cancel),
+                              icon: const Icon(Icons.delete),
                               onPressed: () => _removeGroup(context, group),
                               tooltip: 'Delete Group'),
                           onTap: () => _showGroup(context, group),
@@ -67,6 +67,12 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _newGroup(context),
+        tooltip: 'New Group',
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -83,10 +89,15 @@ class Home extends StatelessWidget {
       MaterialPageRoute<void>(
         builder: (context) => Consumer<AppState>(
             builder: (_, state, __) => GroupPage(
+                  key: Key(group.id),
                   group: state.group(group.id),
                 )),
       ),
     );
+  }
+
+  void _revertToExample(BuildContext context) {
+    Provider.of<AppState>(context, listen: false).revertToExample();
   }
 
   void _removeGroup(BuildContext context, Group group) {
