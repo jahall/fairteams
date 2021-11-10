@@ -48,7 +48,7 @@ class _PlayerEditState extends State<PlayerEdit> {
         Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
             child: IconButton(
-                icon: const Icon(Icons.cancel),
+                icon: const Icon(Icons.delete),
                 onPressed: () => _removePlayer(context),
                 tooltip: 'Delete Player')),
       ];
