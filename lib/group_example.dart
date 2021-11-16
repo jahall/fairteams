@@ -1,9 +1,9 @@
 import 'package:fairteams/model.dart';
 
 Map<String, Group> loadSampleGroups() {
-  final defence = Skill(name: 'Defence', importance: 1.0);
+  final defence = Skill(name: 'Defending', importance: 1.0);
   final passing = Skill(name: 'Passing', importance: 1.0);
-  final physical = Skill(name: 'Physical', importance: 1.0);
+  final physical = Skill(name: 'Pace', importance: 1.0);
   final dribbling = Skill(name: 'Dribbling', importance: 1.0);
   final shooting = Skill(name: 'Shooting', importance: 2.0);
   Group group = Group(name: 'Tuesday Football', sport: 'football', skills: [
@@ -13,140 +13,160 @@ Map<String, Group> loadSampleGroups() {
     dribbling,
     shooting,
   ], players: [
-    Player(name: 'Alan', abilities: {
+    Player(name: 'Archie', abilities: {
+      // Alan
       defence.id: 9.0,
       passing.id: 9.0,
       physical.id: 6.0,
       dribbling.id: 6.0,
       shooting.id: 4.0,
     }),
-    Player(name: 'Andi', abilities: {
+    Player(name: 'Barclay', abilities: {
+      // Andi
       defence.id: 6.0,
-      passing.id: 8.0,
+      passing.id: 6.0,
       physical.id: 4.0,
       dribbling.id: 7.0,
       shooting.id: 6.0,
     }),
-    Player(name: 'Chris', abilities: {
+    Player(name: 'Edna', abilities: {
+      // Chris
       defence.id: 6.0,
-      passing.id: 8.0,
+      passing.id: 6.0,
       physical.id: 7.0,
       dribbling.id: 7.0,
       shooting.id: 6.0,
     }),
-    Player(name: 'Craig', abilities: {
-      defence.id: 7.0,
+    Player(name: 'Fenella', abilities: {
+      // Craig
+      defence.id: 4.0,
       passing.id: 7.0,
       physical.id: 5.0,
       dribbling.id: 7.0,
-      shooting.id: 7.0,
+      shooting.id: 8.0,
     }),
-    Player(name: 'Dil', abilities: {
+    Player(name: 'Fingal', abilities: {
+      // Eugene
+      defence.id: 4.0,
+      passing.id: 6.0,
+      physical.id: 6.0,
+      dribbling.id: 8.0,
+      shooting.id: 9.0,
+    }),
+    Player(name: 'Gilchrist', abilities: {
+      // Evan
+      defence.id: 7.0,
+      passing.id: 7.0,
+      physical.id: 7.0,
+      dribbling.id: 10.0,
+      shooting.id: 8.0,
+    }),
+    Player(name: 'Gillespie', abilities: {
+      // Dil
       defence.id: 3.0,
       passing.id: 3.0,
       physical.id: 3.0,
       dribbling.id: 2.0,
       shooting.id: 3.0,
     }),
-    Player(name: 'Dougal', abilities: {
+    Player(name: 'Grier', abilities: {
+      // Dougal
       defence.id: 5.0,
-      passing.id: 8.0,
+      passing.id: 5.0,
       physical.id: 9.0,
       dribbling.id: 5.0,
       shooting.id: 6.0,
     }),
-    Player(name: 'Eugene', abilities: {
-      defence.id: 4.0,
-      passing.id: 5.0,
-      physical.id: 6.0,
-      dribbling.id: 8.0,
-      shooting.id: 9.0,
-    }),
-    Player(name: 'Evan', abilities: {
-      defence.id: 7.0,
+    Player(name: 'Irving', abilities: {
+      // Greg
+      defence.id: 6.0,
       passing.id: 7.0,
-      physical.id: 5.0,
-      dribbling.id: 10.0,
-      shooting.id: 8.0,
-    }),
-    Player(name: 'Greig', abilities: {
-      defence.id: 9.0,
-      passing.id: 9.0,
-      physical.id: 8.0,
+      physical.id: 7.0,
       dribbling.id: 6.0,
-      shooting.id: 6.0,
+      shooting.id: 5.0,
     }),
-    Player(name: 'John-Luke', abilities: {
+    Player(name: 'Jamie', abilities: {
+      // JL
       defence.id: 7.0,
-      passing.id: 7.0,
+      passing.id: 4.0,
       physical.id: 6.0,
       dribbling.id: 5.0,
       shooting.id: 5.0,
     }),
-    Player(name: 'Joe', abilities: {
+    Player(name: 'Kirsten', abilities: {
+      // Joe
       defence.id: 9.0,
-      passing.id: 7.0,
+      passing.id: 4.0,
       physical.id: 8.0,
       dribbling.id: 5.0,
       shooting.id: 4.0,
     }),
-    Player(name: 'Josh', abilities: {
+    Player(name: 'Lindsay', abilities: {
+      // Josh
       defence.id: 6.0,
       passing.id: 6.0,
       physical.id: 3.0,
       dribbling.id: 7.0,
       shooting.id: 4.0,
     }),
-    Player(name: 'Mark', abilities: {
-      defence.id: 3.0,
+    Player(name: 'Niven', abilities: {
+      // Mark Spicer
+      defence.id: 5.0,
       passing.id: 7.0,
       physical.id: 5.0,
       dribbling.id: 8.0,
       shooting.id: 7.0,
     }),
-    Player(name: 'Peter', abilities: {
-      defence.id: 4.0,
-      passing.id: 8.0,
-      physical.id: 8.0,
-      dribbling.id: 7.0,
-      shooting.id: 6.0,
-    }),
-    Player(name: 'Robin', abilities: {
-      defence.id: 6.0,
-      passing.id: 8.0,
-      physical.id: 6.0,
-      dribbling.id: 7.0,
-      shooting.id: 6.0,
-    }),
-    Player(name: 'Spybey', abilities: {
+    Player(name: 'Mairead', abilities: {
+      // Mark Spybey
       defence.id: 7.0,
       passing.id: 8.0,
       physical.id: 7.0,
       dribbling.id: 6.0,
       shooting.id: 4.0,
     }),
-    Player(name: 'Stefan', abilities: {
+    Player(name: 'Morag', abilities: {
+      // Peter
+      defence.id: 4.0,
+      passing.id: 4.0,
+      physical.id: 8.0,
+      dribbling.id: 7.0,
+      shooting.id: 6.0,
+    }),
+    Player(name: 'Moyna', abilities: {
+      // Robin
+      defence.id: 6.0,
+      passing.id: 6.0,
+      physical.id: 6.0,
+      dribbling.id: 7.0,
+      shooting.id: 6.0,
+    }),
+    Player(name: 'Rabbie', abilities: {
+      // Stefan
       defence.id: 3.0,
       passing.id: 3.0,
       physical.id: 5.0,
       dribbling.id: 3.0,
       shooting.id: 3.0,
     }),
-    Player(name: 'Steve', abilities: {
+    Player(name: 'Ramsay', abilities: {
+      // Steve
       defence.id: 8.0,
       passing.id: 9.0,
       physical.id: 8.0,
-      dribbling.id: 10.0,
-      shooting.id: 10.0,
+      dribbling.id: 9.0,
+      shooting.id: 8.0,
     }),
-    Player(name: 'Tim', abilities: {
+    Player(name: 'Roderick', abilities: {
+      // Tim
       defence.id: 7.0,
-      passing.id: 8.0,
+      passing.id: 9.0,
       physical.id: 9.0,
-      dribbling.id: 10.0,
-      shooting.id: 10.0,
+      dribbling.id: 9.0,
+      shooting.id: 9.0,
     }),
-    Player(name: 'Tom', abilities: {
+    Player(name: 'Rory', abilities: {
+      // Tom
       defence.id: 8.0,
       passing.id: 6.0,
       physical.id: 9.0,
