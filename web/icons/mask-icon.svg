@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="400.0" viewBox="-350.0 -350.0 700 700">
+<defs>
+</defs>
+<path d="M-190,240 V90 H-240 V60 Q-240,10,-190,10 H-190 V-140 Q-190,-190,-140,-190 H40 Q90,-190,90,-140 V-110 H-60 Q-110,-110,-110,-60 L-110,10 L90,10 L90,40 Q90,90,40,90 H-110 V190 Q-110,240,-140,240" id="f" stroke-width="0" fill="#000000" transform="skewX(-15) translate(-5, 0)" fill-opacity="1" />
+<path d="M-190,240 V90 H-240 V60 Q-240,10,-190,10 H-190 V-140 Q-190,-190,-140,-190 H40 Q90,-190,90,-140 V-110 H-60 Q-110,-110,-110,-60 L-110,10 L90,10 L90,40 Q90,90,40,90 H-110 V190 Q-110,240,-140,240" id="f" stroke-width="0" fill="#000000" transform="skewX(-15) translate(-5, 0) rotate(180)" fill-opacity="1" />
+</svg>
