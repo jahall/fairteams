@@ -72,14 +72,21 @@ class Player {
 
   Widget abilityDisplay(List<Skill> skills, {required Color color}) {
     // Pretty traffic light display of skills
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: skills
-          .map((s) => Icon(Icons.circle,
-              color: color.withOpacity(ability(s) / 10),
-              size: 12.0 * (1 + 0.5 * (s.importance - 1))))
-          .toList(),
-    );
+    var width = skills.map((s) => s.importance).reduce((a, b) => a + b);
+    return SizedBox(
+        height: 20,
+        width: 10 * width + 2 * (skills.length - 1),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: skills
+              .map((s) => Container(
+                  width: 10 * s.importance,
+                  height: 20 * ability(s) / 10,
+                  color: color.withOpacity(ability(s) / 10)))
+              .toList(),
+        ));
   }
 
   Icon icon({Color? color}) {

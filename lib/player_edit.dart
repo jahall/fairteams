@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
 import 'package:fairteams/slider.dart';
+import 'package:fairteams/utils.dart';
 
 class PlayerEdit extends StatefulWidget {
   const PlayerEdit({Key? key, required this.group, this.player})
@@ -46,7 +47,7 @@ class _PlayerEditState extends State<PlayerEdit> {
       title = 'Edit Player';
       actions = [
         Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 32, 0),
             child: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () => _removePlayer(context),
@@ -58,7 +59,7 @@ class _PlayerEditState extends State<PlayerEdit> {
         title: Text(title),
         actions: actions,
       ),
-      body: _buildForm(context),
+      body: Box(child: _buildForm(context)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _handleSubmitted(context),
         label: const Text('Save'),
@@ -68,17 +69,15 @@ class _PlayerEditState extends State<PlayerEdit> {
   }
 
   Widget _buildForm(BuildContext context) {
-    const sizedBoxSpace = SizedBox(height: 24);
     List<Widget> fields = [
-      sizedBoxSpace,
       _nameInput(),
-      sizedBoxSpace,
+      const SizedBox(height: 24),
     ];
     for (final skill in widget.group.skills) {
       fields += _skillSlider(context, skill);
     }
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 64),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],

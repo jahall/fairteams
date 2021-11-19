@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:fairteams/model.dart';
+import 'package:fairteams/utils.dart';
 
 class ChooseTeams extends StatefulWidget {
   const ChooseTeams({Key? key, required this.group, required this.players})
@@ -46,20 +47,19 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                       Navigator.of(context).popUntil((route) => route.isFirst),
                   tooltip: 'Home')),
         ]),
-        body: Scrollbar(
-            child: SingleChildScrollView(
+        body: Box(
+            child: Scrollbar(
+                child: SingleChildScrollView(
           child: Column(children: [
-            _header(context, "Teams"),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             _teamHeader(context),
             const SizedBox(height: 2),
             _teamColumns(context),
-            const SizedBox(height: 8),
-            _header(context, "Comparison"),
+            const Divider(thickness: 2),
             const SizedBox(height: 8),
             _teamComparison(),
           ]),
-        )));
+        ))));
   }
 
   void _revertToOptimal() {
@@ -67,14 +67,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
       _reds.players = List.from(_optimalRedPlayers);
       _blues.players = List.from(_optimalBluePlayers);
     });
-  }
-
-  Widget _header(BuildContext context, String title) {
-    final style = Theme.of(context).textTheme.bodyText2;
-    return Container(
-        color: Colors.grey[350],
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(children: [Expanded(child: Text(title, style: style))]));
   }
 
   // TEAM DISPLAY **********************************************************
@@ -101,7 +93,6 @@ class _ChooseTeamsState extends State<ChooseTeams> {
   }
 
   Widget _teamColumns(BuildContext context) {
-    var width = (MediaQuery.of(context).size.width - 16 * 3) / 2;
     var optimalReds = _optimalRedPlayers.map((p) => p.id).toSet();
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -113,40 +104,40 @@ class _ChooseTeamsState extends State<ChooseTeams> {
             // therefore passing width down...sure there's a better way!
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               (i < _reds.players.length)
-                  ? PlayerTile(
-                      group: widget.group,
-                      player: _reds.players[i],
-                      swapIcon: const Icon(Icons.keyboard_arrow_right,
-                          color: Colors.grey),
-                      color: (optimalReds.contains(_reds.players[i].id))
-                          ? Colors.red
-                          : Colors.blue,
-                      width: width,
-                      onSwap: () => setState(() {
-                            _blues.add(_reds.players[i]);
-                            _blues.sort(widget.group.skills);
-                            _reds.remove(_reds.players[i]);
-                            _reds.sort(widget.group.skills);
-                          }))
-                  : SizedBox(width: width),
+                  ? Expanded(
+                      child: PlayerTile(
+                          group: widget.group,
+                          player: _reds.players[i],
+                          swapIcon: const Icon(Icons.keyboard_arrow_right,
+                              color: Colors.grey),
+                          color: (optimalReds.contains(_reds.players[i].id))
+                              ? Colors.red
+                              : Colors.blue,
+                          onSwap: () => setState(() {
+                                _blues.add(_reds.players[i]);
+                                _blues.sort(widget.group.skills);
+                                _reds.remove(_reds.players[i]);
+                                _reds.sort(widget.group.skills);
+                              })))
+                  : const Expanded(child: Text('')),
               const SizedBox(width: 16),
               (i < _blues.players.length)
-                  ? PlayerTile(
-                      group: widget.group,
-                      player: _blues.players[i],
-                      swapIcon: const Icon(Icons.keyboard_arrow_left,
-                          color: Colors.grey),
-                      color: (optimalReds.contains(_blues.players[i].id))
-                          ? Colors.red
-                          : Colors.blue,
-                      width: width,
-                      onSwap: () => setState(() {
-                            _reds.add(_blues.players[i]);
-                            _reds.sort(widget.group.skills);
-                            _blues.remove(_blues.players[i]);
-                            _blues.sort(widget.group.skills);
-                          }))
-                  : SizedBox(width: width),
+                  ? Expanded(
+                      child: PlayerTile(
+                          group: widget.group,
+                          player: _blues.players[i],
+                          swapIcon: const Icon(Icons.keyboard_arrow_left,
+                              color: Colors.grey),
+                          color: (optimalReds.contains(_blues.players[i].id))
+                              ? Colors.red
+                              : Colors.blue,
+                          onSwap: () => setState(() {
+                                _reds.add(_blues.players[i]);
+                                _reds.sort(widget.group.skills);
+                                _blues.remove(_blues.players[i]);
+                                _blues.sort(widget.group.skills);
+                              })))
+                  : const Expanded(child: Text('')),
             ])
         ]));
   }
@@ -206,7 +197,6 @@ class PlayerTile extends StatelessWidget {
       required this.group,
       required this.player,
       required this.color,
-      required this.width,
       required this.swapIcon,
       this.onSwap})
       : super(key: key);
@@ -214,7 +204,6 @@ class PlayerTile extends StatelessWidget {
   final Group group;
   final Player player;
   final Color color;
-  final double width;
   final Icon swapIcon;
   final void Function()? onSwap;
 
@@ -222,7 +211,6 @@ class PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         height: 50,
-        width: width,
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Expanded(
               child: Column(

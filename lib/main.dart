@@ -5,6 +5,7 @@ import 'package:fairteams/group_edit.dart';
 import 'package:fairteams/group_page.dart';
 import 'package:fairteams/state.dart';
 import 'package:fairteams/model.dart';
+import 'package:fairteams/utils.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -47,7 +48,8 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Scrollbar(
+      body: Box(
+          child: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Consumer<AppState>(
@@ -66,13 +68,13 @@ class Home extends StatelessWidget {
                     .toList()),
           ),
         ),
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _newGroup(context),
         tooltip: 'New Group',
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

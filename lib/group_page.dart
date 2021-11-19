@@ -6,6 +6,7 @@ import 'package:fairteams/model.dart';
 import 'package:fairteams/group_edit.dart';
 import 'package:fairteams/player_edit.dart';
 import 'package:fairteams/teams.dart';
+import 'package:fairteams/utils.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({Key? key, required this.group}) : super(key: key);
@@ -49,7 +50,8 @@ class _GroupPageState extends State<GroupPage> {
                   tooltip: 'New Player')),
         ],
       ),
-      body: Column(children: [
+      body: Box(
+          child: Column(children: [
         const SizedBox(height: 24),
         (_selectMode) ? _selectedCountInfo(context) : _countInfo(context),
         const SizedBox(height: 12),
@@ -58,12 +60,12 @@ class _GroupPageState extends State<GroupPage> {
         Expanded(
           child: Scrollbar(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
               child: _playerList(context),
             ),
           ),
         ),
-      ]),
+      ])),
       floatingActionButton: _actionButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -104,7 +106,7 @@ class _GroupPageState extends State<GroupPage> {
               ]),
             ))
         .toList();
-    return Column(children: fields + <Widget>[const SizedBox(height: 64)]);
+    return Column(children: fields);
   }
 
   FloatingActionButton _actionButton(BuildContext context) {

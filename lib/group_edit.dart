@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:fairteams/model.dart';
 import 'package:fairteams/state.dart';
+import 'package:fairteams/utils.dart';
 
 class GroupEdit extends StatefulWidget {
   const GroupEdit({Key? key, this.group}) : super(key: key);
@@ -58,15 +59,15 @@ class _GroupEditState extends State<GroupEdit> {
       appBar: AppBar(
         title: Text((widget.group == null) ? 'New Group' : 'Edit Group'),
       ),
-      body: Form(
+      body: Box(
+          child: Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.values[_autoValidateModeIndex],
         child: Scrollbar(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
             child: Column(
               children: [
-                    const SizedBox(height: 24),
                     _nameInput(),
                     const SizedBox(height: 16),
                     _sportInput(),
@@ -81,17 +82,17 @@ class _GroupEditState extends State<GroupEdit> {
                         icon: const Icon(Icons.add_circle,
                             color: Colors.blue, size: 32.0),
                         onPressed: () => setState(() => _skills.add(Skill())),
-                        tooltip: 'New Skill')
+                        tooltip: 'New Skill'),
                   ],
             ),
           ),
         ),
-      ),
+      )),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _handleSubmitted(context),
         label: const Text('Save'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -155,9 +156,6 @@ class _GroupEditState extends State<GroupEdit> {
               : 1.0;
     }
 
-    // Ruddy issues with unconstrained row widths...
-    var width = MediaQuery.of(context).size.width - 16 * 2 - 24 * 2;
-
     return _skills
         .asMap()
         .entries
@@ -165,25 +163,22 @@ class _GroupEditState extends State<GroupEdit> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(children: [
               // Skill name
-              SizedBox(
-                  width: width - 10 - 85 - 50,
+              Expanded(
                   child: TextFormField(
-                    key: Key(_sport + e.value.id),
-                    textInputAction: TextInputAction.next,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: const InputDecoration(
-                      filled: false,
-                      icon: Icon(Icons.flash_on, color: Colors.blue),
-                      labelText: 'Skill',
-                      hintText: 'Name of this skill?',
-                    ),
-                    initialValue: e.value.name,
-                    onChanged: (value) =>
-                        setState(() => onNameSaved(e.key, value)),
-                    onSaved: (value) =>
-                        setState(() => onNameSaved(e.key, value)),
-                    validator: _validateName,
-                  )),
+                key: Key(_sport + e.value.id),
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  filled: false,
+                  icon: Icon(Icons.flash_on, color: Colors.blue),
+                  labelText: 'Skill',
+                  hintText: 'Name of this skill?',
+                ),
+                initialValue: e.value.name,
+                onChanged: (value) => setState(() => onNameSaved(e.key, value)),
+                onSaved: (value) => setState(() => onNameSaved(e.key, value)),
+                validator: _validateName,
+              )),
               const SizedBox(width: 10),
               // Importance
               SizedBox(
