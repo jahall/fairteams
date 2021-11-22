@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Box extends StatelessWidget {
@@ -7,9 +8,11 @@ class Box extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double maxWidth = min(screenWidth, 500);
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        constraints: const BoxConstraints(maxWidth: 500),
+        constraints: BoxConstraints(maxWidth: maxWidth),
         child: child,
       )
     ]);
