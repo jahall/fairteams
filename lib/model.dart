@@ -123,7 +123,7 @@ class Team {
 
   double overallAbility(List<Skill> skills, {double? denominator}) {
     // The aggregated skill value for this team.
-    if (skills.isEmpty) {
+    if (skills.isEmpty | players.isEmpty) {
       return 0;
     }
     return players

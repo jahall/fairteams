@@ -111,8 +111,8 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                           swapIcon: const Icon(Icons.keyboard_arrow_right,
                               color: Colors.grey),
                           color: (optimalReds.contains(_reds.players[i].id))
-                              ? Colors.red
-                              : Colors.blue,
+                              ? red
+                              : blue,
                           onSwap: () => setState(() {
                                 _blues.add(_reds.players[i]);
                                 _blues.sort(widget.group.skills);
@@ -129,8 +129,8 @@ class _ChooseTeamsState extends State<ChooseTeams> {
                           swapIcon: const Icon(Icons.keyboard_arrow_left,
                               color: Colors.grey),
                           color: (optimalReds.contains(_blues.players[i].id))
-                              ? Colors.red
-                              : Colors.blue,
+                              ? red
+                              : blue,
                           onSwap: () => setState(() {
                                 _reds.add(_blues.players[i]);
                                 _reds.sort(widget.group.skills);
@@ -154,7 +154,12 @@ class _ChooseTeamsState extends State<ChooseTeams> {
         skillName: 'Overall', redAbility: redOverall, blueAbility: blueOverall);
     var breakdown = widget.group.skills.map((s) => _skillRow(s, d)).toList();
     return Column(
-        children: <Widget>[overall, const Divider(thickness: 2)] + breakdown);
+        children: <Widget>[
+              overall,
+              const SizedBox(height: 4),
+              const Divider(thickness: 2)
+            ] +
+            breakdown);
   }
 
   Widget _skillRow(Skill skill, double denominator) {
@@ -173,10 +178,10 @@ class _ChooseTeamsState extends State<ChooseTeams> {
     double diff = 1.0 / 0.0; // infinity
     for (var redPlayers in combinations(n, players)) {
       var redIds = redPlayers.map((p) => p.id).toSet();
-      var reds_ = Team(name: 'Reds', color: Colors.red, players: redPlayers);
+      var reds_ = Team(name: 'Reds', color: red, players: redPlayers);
       var blues_ = Team(
           name: 'Blues',
-          color: Colors.blue,
+          color: blue,
           players: players.where((p) => !redIds.contains(p.id)).toList());
       var diff_ = reds_.diff(blues_, widget.group.skills);
       if (diff_ < diff) {
@@ -252,7 +257,7 @@ class SkillRow extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(score.toStringAsFixed(2),
                   style: style?.apply(
-                      color: color, fontWeightDelta: (bold) ? 50 : 0))),
+                      color: color, fontWeightDelta: (bold) ? 3 : 0))),
           width: 40);
     }
 
@@ -269,13 +274,13 @@ class SkillRow extends StatelessWidget {
         height: 22,
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           diffView(diff > 0.005),
-          scoreView(ra, Colors.red, diff > 0.005),
+          scoreView(ra, red, diff > 0.005),
           SizedBox(
               child: Align(
                   alignment: Alignment.center,
                   child: Text(skillName, style: style)),
               width: 120),
-          scoreView(ba, Colors.blue, diff < -0.005),
+          scoreView(ba, blue, diff < -0.005),
           diffView(diff < -0.005),
         ]));
   }

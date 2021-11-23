@@ -52,9 +52,9 @@ class _GroupPageState extends State<GroupPage> {
       ),
       body: Box(
           child: Column(children: [
-        const SizedBox(height: 24),
-        (_selectMode) ? _selectedCountInfo(context) : _countInfo(context),
         const SizedBox(height: 12),
+        (_selectMode) ? _selectedCountInfo(context) : _countInfo(context),
+        const SizedBox(height: 6),
         const Divider(thickness: 2),
         const SizedBox(height: 6),
         Expanded(
@@ -92,11 +92,12 @@ class _GroupPageState extends State<GroupPage> {
                                 }
                               });
                             })
-                        : p.icon(color: Colors.blue)),
+                        : p.icon(color: primaryColor(context))),
                 Expanded(
                     child: Align(
                         alignment: Alignment.centerLeft, child: Text(p.name))),
-                p.abilityDisplay(widget.group.skills, color: Colors.blue),
+                p.abilityDisplay(widget.group.skills,
+                    color: primaryColor(context)),
                 SizedBox(
                     width: 50,
                     child: IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fairteams/utils.dart';
 
 class SliderWidget extends StatefulWidget {
   final double initialValue;
@@ -11,7 +12,7 @@ class SliderWidget extends StatefulWidget {
   const SliderWidget(
       {Key? key,
       this.initialValue = 0,
-      this.sliderHeight = 48,
+      this.sliderHeight = 40,
       this.max = 10,
       this.min = 0,
       this.fullWidth = false,
@@ -46,8 +47,8 @@ class _SliderWidgetState extends State<SliderWidget> {
         ),
         gradient: LinearGradient(
             colors: [
-              Colors.blue[300]!,
-              Colors.blue,
+              primaryColor(context).withOpacity(0.5),
+              primaryColor(context),
             ],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(1.0, 1.00),

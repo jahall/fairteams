@@ -18,3 +18,10 @@ class Box extends StatelessWidget {
     ]);
   }
 }
+
+Color primaryColor(BuildContext context) {
+  return Theme.of(context).colorScheme.primary;
+}
+
+const Color red = Color(0xFFE53935);
+const Color blue = Color(0xFF1E88E5);

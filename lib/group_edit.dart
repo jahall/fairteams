@@ -75,12 +75,12 @@ class _GroupEditState extends State<GroupEdit> {
                     Text('SKILLS', style: TextStyle(color: Colors.grey[600])),
                     const SizedBox(height: 8),
                   ] +
-                  _skillsInput() +
+                  _skillsInput(context) +
                   [
                     const SizedBox(height: 8),
                     IconButton(
-                        icon: const Icon(Icons.add_circle,
-                            color: Colors.blue, size: 32.0),
+                        icon: Icon(Icons.add_circle,
+                            color: primaryColor(context), size: 32.0),
                         onPressed: () => setState(() => _skills.add(Skill())),
                         tooltip: 'New Skill'),
                   ],
@@ -102,9 +102,9 @@ class _GroupEditState extends State<GroupEdit> {
         child: TextFormField(
           textInputAction: TextInputAction.next,
           textCapitalization: TextCapitalization.words,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: false,
-            icon: Icon(Icons.group, color: Colors.blue),
+            icon: Icon(Icons.group, color: primaryColor(context)),
             hintText: 'What is the group called?',
             labelText: 'Group Name*',
           ),
@@ -126,7 +126,7 @@ class _GroupEditState extends State<GroupEdit> {
           value: _sport,
           decoration: InputDecoration(
             filled: false,
-            icon: Group(sport: _sport).icon(color: Colors.blue),
+            icon: Group(sport: _sport).icon(color: primaryColor(context)),
             labelText: 'Sport',
           ),
           items: <String>['Basketball', 'Football']
@@ -143,7 +143,7 @@ class _GroupEditState extends State<GroupEdit> {
         ));
   }
 
-  List<Widget> _skillsInput() {
+  List<Widget> _skillsInput(BuildContext context) {
     void onNameSaved(index, value) {
       _skills[index].name = value.toString();
     }
@@ -168,9 +168,9 @@ class _GroupEditState extends State<GroupEdit> {
                 key: Key(_sport + e.value.id),
                 textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   filled: false,
-                  icon: Icon(Icons.flash_on, color: Colors.blue),
+                  icon: Icon(Icons.flash_on, color: primaryColor(context)),
                   labelText: 'Skill',
                   hintText: 'Name of this skill?',
                 ),
@@ -182,7 +182,7 @@ class _GroupEditState extends State<GroupEdit> {
               const SizedBox(width: 10),
               // Importance
               SizedBox(
-                  width: 85,
+                  width: 100,
                   child: DropdownButtonFormField(
                     value: (e.value.importance > 1)
                         ? 'high'

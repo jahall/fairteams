@@ -107,7 +107,7 @@ class _PlayerEditState extends State<PlayerEdit> {
         ));
   }
 
-  List<Widget> _skillSlider(BuildContext contex, Skill skill) {
+  List<Widget> _skillSlider(BuildContext context, Skill skill) {
     var value = _abilities[skill.id] ?? 5;
     return [
       Text(skill.name, style: Theme.of(context).textTheme.bodyText1),

@@ -20,7 +20,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Fair Teams',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
+        fontFamily: 'Montserrat',
       ),
       home: const Home(title: 'Fair Teams'),
     );
@@ -58,7 +59,7 @@ class Home extends StatelessWidget {
                     .map((group) => ListTile(
                           title: Text(group.name),
                           subtitle: Text(group.subtitle()),
-                          leading: group.icon(color: Colors.blue),
+                          leading: group.icon(color: primaryColor(context)),
                           trailing: IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () => _removeGroup(context, group),
