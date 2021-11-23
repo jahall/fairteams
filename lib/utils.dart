@@ -1,6 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+const Color red = Color(0xFFD32F2F); // Colors.red[700]
+const Color blue = Color(0xFF1976D2); // Colors.blue[700]
+
+Color primaryColor(BuildContext context) {
+  return Theme.of(context).colorScheme.primary;
+}
+
 class Box extends StatelessWidget {
   const Box({Key? key, required this.child}) : super(key: key);
 
@@ -18,10 +25,3 @@ class Box extends StatelessWidget {
     ]);
   }
 }
-
-Color primaryColor(BuildContext context) {
-  return Theme.of(context).colorScheme.primary;
-}
-
-const Color red = Color(0xFFE53935);
-const Color blue = Color(0xFF1E88E5);
