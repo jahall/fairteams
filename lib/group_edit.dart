@@ -30,6 +30,16 @@ class _GroupEditState extends State<GroupEdit> {
       Skill(id: '3', name: 'Shooting'),
       Skill(id: '4', name: 'Fitness'),
     ],
+    'charades': [
+      Skill(id: '1', name: 'Acting'),
+      Skill(id: '2', name: 'Guessing'),
+    ],
+    'cricket': [
+      Skill(id: '1', name: 'Batting'),
+      Skill(id: '2', name: 'Bowling'),
+      Skill(id: '3', name: 'Fielding'),
+      Skill(id: '4', name: 'Wicket-keeping'),
+    ],
     'football': [
       Skill(id: '1', name: 'Defending'),
       Skill(id: '2', name: 'Passing'),
@@ -43,14 +53,11 @@ class _GroupEditState extends State<GroupEdit> {
       Skill(id: '3', name: 'Shooting'),
       Skill(id: '4', name: 'Fitness'),
     ],
-    'pub quiz': [
-      Skill(id: '1', name: 'General'),
-      Skill(id: '2', name: 'Geography'),
-      Skill(id: '3', name: 'History'),
-      Skill(id: '4', name: 'Music'),
-      Skill(id: '5', name: 'Pop Culture'),
-      Skill(id: '6', name: 'Science'),
-      Skill(id: '7', name: 'Sport'),
+    'netball': [
+      Skill(id: '1', name: 'Passing'),
+      Skill(id: '2', name: 'Positioning'),
+      Skill(id: '3', name: 'Shooting'),
+      Skill(id: '4', name: 'Fitness'),
     ],
     'rugby': [
       Skill(id: '1', name: 'Passing'),
@@ -65,6 +72,15 @@ class _GroupEditState extends State<GroupEdit> {
       Skill(id: '2', name: 'Hitting'),
       Skill(id: '3', name: 'Tackling'),
       Skill(id: '4', name: 'Fitness'),
+    ],
+    'quiz': [
+      Skill(id: '1', name: 'General'),
+      Skill(id: '2', name: 'Geography'),
+      Skill(id: '3', name: 'History'),
+      Skill(id: '4', name: 'Music'),
+      Skill(id: '5', name: 'Pop Culture'),
+      Skill(id: '6', name: 'Science'),
+      Skill(id: '7', name: 'Sport'),
     ],
     'other': [],
   };
@@ -162,11 +178,15 @@ class _GroupEditState extends State<GroupEdit> {
           ),
           items: <String>[
             'Basketball',
+            'Charades',
+            'Cricket',
             'Football',
             'Hockey',
-            'Pub Quiz',
+            'Netball',
+            'Quiz',
             'Rugby',
             'Shinty',
+            'Quiz',
             'Other',
           ]
               .map((String value) => DropdownMenuItem(
