@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="272.3404255319149" viewBox="-235.0 -110.0 470 220">
+<defs>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400');
+    </style>
+</defs>
+<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#D32F2F" transform="translate(-110, 0)" />
+<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#1976D2" transform="rotate(180, 0, 0) translate(0, -50)" />
+<text x="-85" y="40" font-size="40" font-family="'Montserrat', sans-serif" fill="#D32F2F" dy="0em">air</text>
+<text x="105" y="40" font-size="40" font-family="'Montserrat', sans-serif" fill="#1976D2" dy="0em">eams</text>
+</svg>

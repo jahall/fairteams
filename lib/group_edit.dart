@@ -183,7 +183,6 @@ class _GroupEditState extends State<GroupEdit> {
             'Football',
             'Hockey',
             'Netball',
-            'Quiz',
             'Rugby',
             'Shinty',
             'Quiz',
