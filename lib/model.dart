@@ -212,6 +212,11 @@ class Group {
     IconData? iconData = {
       'basketball': Icons.sports_basketball,
       'football': Icons.sports_soccer,
+      'hockey': Icons.sports_hockey,
+      'pub quiz': Icons.wine_bar,
+      'rugby': Icons.sports_rugby,
+      'shinty': Icons.sports_hockey,
+      'other': Icons.circle,
     }[sport.toLowerCase()];
     if (color != null) {
       return Icon(iconData, color: color);

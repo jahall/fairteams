@@ -28,6 +28,7 @@ class _GroupEditState extends State<GroupEdit> {
       Skill(id: '1', name: 'Passing'),
       Skill(id: '2', name: 'Positioning'),
       Skill(id: '3', name: 'Shooting'),
+      Skill(id: '4', name: 'Fitness'),
     ],
     'football': [
       Skill(id: '1', name: 'Defending'),
@@ -36,6 +37,36 @@ class _GroupEditState extends State<GroupEdit> {
       Skill(id: '4', name: 'Dribbling'),
       Skill(id: '5', name: 'Shooting'),
     ],
+    'hockey': [
+      Skill(id: '1', name: 'Passing'),
+      Skill(id: '2', name: 'Positioning'),
+      Skill(id: '3', name: 'Shooting'),
+      Skill(id: '4', name: 'Fitness'),
+    ],
+    'pub quiz': [
+      Skill(id: '1', name: 'General'),
+      Skill(id: '2', name: 'Geography'),
+      Skill(id: '3', name: 'History'),
+      Skill(id: '4', name: 'Music'),
+      Skill(id: '5', name: 'Pop Culture'),
+      Skill(id: '6', name: 'Science'),
+      Skill(id: '7', name: 'Sport'),
+    ],
+    'rugby': [
+      Skill(id: '1', name: 'Passing'),
+      Skill(id: '2', name: 'Positioning'),
+      Skill(id: '3', name: 'Tackling'),
+      Skill(id: '4', name: 'Kicking'),
+      Skill(id: '5', name: 'Catching'),
+      Skill(id: '6', name: 'Fitness'),
+    ],
+    'shinty': [
+      Skill(id: '1', name: 'Dribbling'),
+      Skill(id: '2', name: 'Hitting'),
+      Skill(id: '3', name: 'Tackling'),
+      Skill(id: '4', name: 'Fitness'),
+    ],
+    'other': [],
   };
 
   @override
@@ -129,7 +160,15 @@ class _GroupEditState extends State<GroupEdit> {
             icon: Group(sport: _sport).icon(color: primaryColor(context)),
             labelText: 'Sport',
           ),
-          items: <String>['Basketball', 'Football']
+          items: <String>[
+            'Basketball',
+            'Football',
+            'Hockey',
+            'Pub Quiz',
+            'Rugby',
+            'Shinty',
+            'Other',
+          ]
               .map((String value) => DropdownMenuItem(
                     value: value.toLowerCase(),
                     child: Text(value),

@@ -6,7 +6,8 @@ Map<String, Group> loadSampleGroups() {
   final physical = Skill(name: 'Pace', importance: 1.0);
   final dribbling = Skill(name: 'Dribbling', importance: 1.0);
   final shooting = Skill(name: 'Shooting', importance: 2.0);
-  Group group = Group(name: 'Tuesday Football', sport: 'football', skills: [
+  Group group =
+      Group(name: 'Example Football League', sport: 'football', skills: [
     defence,
     passing,
     physical,
@@ -162,8 +163,8 @@ Map<String, Group> loadSampleGroups() {
       defence.id: 7.0,
       passing.id: 9.0,
       physical.id: 9.0,
-      dribbling.id: 9.0,
-      shooting.id: 9.0,
+      dribbling.id: 10.0,
+      shooting.id: 10.0,
     }),
     Player(name: 'Rory', abilities: {
       // Tom
