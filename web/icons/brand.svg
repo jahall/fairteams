@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="200" height="130" viewBox="-235.0 -110.0 470 220">
+     width="300" height="213.33333333333331" viewBox="-225.0 -160.0 450 320">
 <defs>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Righteous:wght@400');
     </style>
 </defs>
-<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#D32F2F" transform="translate(-110, 0)" />
-<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#1976D2" transform="rotate(180, 0, 0) translate(5, -50)" />
-<text x="-85" y="40" font-size="40" font-family="'Righteous', sans-serif" fill="#D32F2F" dy="0em">air</text>
-<text x="100" y="40" font-size="40" font-family="'Righteous', sans-serif" fill="#1976D2" dy="0em">eams</text>
+<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#D32F2F" transform="translate(-110, -20)" />
+<path d="M-61.6557392560748,78.7309965438449 A100,100,0,0,1,56.92447281073173,-82.21681333656922 L46.290422416108726,-53.0 L-13.709577583891273,-53.0 L-34.09191070279861,3.0 L25.90808929720139,3.0 L9.893398989488484,47.0 L-50.10660101051152,47.0" stroke-width="0" fill="#1976D2" transform="rotate(180, 0, 0) translate(0, -30)" />
+<text x="-85" y="20" font-size="40" font-family="'Righteous', sans-serif" fill="#D32F2F" dy="0em">air</text>
+<text x="105" y="20" font-size="40" font-family="'Righteous', sans-serif" fill="#1976D2" dy="0em">eams</text>
 </svg>
