@@ -117,7 +117,7 @@ class _GroupEditState extends State<GroupEdit> {
               children: [
                     _nameInput(),
                     const SizedBox(height: 16),
-                    _sportInput(),
+                    _sportInput(context),
                     const SizedBox(height: 24),
                     Text('SKILLS', style: TextStyle(color: Colors.grey[600])),
                     const SizedBox(height: 8),
@@ -166,7 +166,19 @@ class _GroupEditState extends State<GroupEdit> {
         ));
   }
 
-  Widget _sportInput() {
+  Widget _sportInput(BuildContext context) {
+    List<String> items = [
+      'Basketball',
+      'Charades',
+      'Cricket',
+      'Football',
+      'Hockey',
+      'Netball',
+      'Rugby',
+      'Shinty',
+      'Quiz',
+      'Other',
+    ];
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: DropdownButtonFormField(
@@ -176,21 +188,20 @@ class _GroupEditState extends State<GroupEdit> {
             icon: Group(sport: _sport).icon(color: primaryColor(context)),
             labelText: 'Sport',
           ),
-          items: <String>[
-            'Basketball',
-            'Charades',
-            'Cricket',
-            'Football',
-            'Hockey',
-            'Netball',
-            'Rugby',
-            'Shinty',
-            'Quiz',
-            'Other',
-          ]
-              .map((String value) => DropdownMenuItem(
-                    value: value.toLowerCase(),
-                    child: Text(value),
+          // allows us to display just the text instead of icon + text
+          selectedItemBuilder: (context) {
+            return items.map<Widget>((String item) => Text(item)).toList();
+          },
+          items: items
+              .map((String item) => DropdownMenuItem(
+                    value: item.toLowerCase(),
+                    child: Row(children: [
+                      SizedBox(
+                          width: 40,
+                          child: Group(sport: item.toLowerCase())
+                              .icon(color: primaryColor(context))),
+                      Text(item)
+                    ]),
                   ))
               .toList(),
           onChanged: (value) => setState(() {

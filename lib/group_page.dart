@@ -97,7 +97,7 @@ class _GroupPageState extends State<GroupPage> {
                     child: Align(
                         alignment: Alignment.centerLeft, child: Text(p.name))),
                 p.abilityDisplay(widget.group.skills,
-                    color: primaryColor(context)),
+                    color: secondaryColor(context)),
                 SizedBox(
                     width: 50,
                     child: IconButton(

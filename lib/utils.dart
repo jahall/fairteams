@@ -8,6 +8,10 @@ Color primaryColor(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
 }
 
+Color secondaryColor(BuildContext context) {
+  return Theme.of(context).colorScheme.secondary;
+}
+
 class Box extends StatelessWidget {
   const Box({Key? key, required this.child}) : super(key: key);
 

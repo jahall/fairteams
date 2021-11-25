@@ -14,14 +14,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = ThemeData(
+      primaryColor: Colors.blue[700],
+      fontFamily: 'Montserrat',
+    );
+    // necessary awkward way to specify secondary color
+    // https://docs.flutter.dev/release/breaking-changes/theme-data-accent-properties
+    theme = theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(secondary: Colors.green[700]));
     return MaterialApp(
       title: 'Fair Teams',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        fontFamily: 'Montserrat',
-      ),
+      theme: theme,
       home: const Splash(),
-      //home: const Home(title: 'Fair Teams'),
     );
   }
 }
