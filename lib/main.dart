@@ -17,6 +17,9 @@ class App extends StatelessWidget {
     ThemeData theme = ThemeData(
       primaryColor: Colors.blue[700],
       fontFamily: 'Montserrat',
+      floatingActionButtonTheme:
+          // this defaults to the secondary color otherwise
+          FloatingActionButtonThemeData(backgroundColor: Colors.blue[700]),
     );
     // necessary awkward way to specify secondary color
     // https://docs.flutter.dev/release/breaking-changes/theme-data-accent-properties
